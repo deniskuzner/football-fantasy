@@ -1,7 +1,9 @@
 package com.fon.footballfantasy.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import lombok.Data;
@@ -11,17 +13,20 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class Club implements Serializable {
-	
-	private static final long serialVersionUID = 7705085158586004971L;
+public class Match implements Serializable {
+
+	private static final long serialVersionUID = 9089264137411582677L;
 	
 	private Long id;
 	private LocalDateTime createdOn;
 	private LocalDateTime modifiedOn;
 	
 	private String url;
-	private String name;
-	private String image;
-	private List<Player> players;
-
+	private String result;
+	private LocalDate date;
+	private LocalTime time;
+	private Club host;
+	private Club guest;
+	private List<MatchEvent> events;
+	
 }

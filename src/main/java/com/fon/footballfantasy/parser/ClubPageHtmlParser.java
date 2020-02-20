@@ -2,7 +2,9 @@ package com.fon.footballfantasy.parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,7 +19,10 @@ public class ClubPageHtmlParser {
 	
 	private static final String URL = "https://fbref.com";
 	
-	public List<Player> parse(String clubUrl) throws IOException {
+	public Map<String, Object> parse(String clubUrl) throws IOException {
+		
+		Map<String, Object> result = new HashMap<>();
+		
 		Document document = Jsoup.connect(URL + clubUrl).timeout(10000).get();
 		Element table = document.getElementsByTag("table").get(0);
 		Elements rows = table.select("tbody tr");
@@ -47,7 +52,10 @@ public class ClubPageHtmlParser {
 			players.add(p);
 		}
 		
-		return players;
+		result.put("players", players);
+		result.put("image", document.select("img.teamlogo").attr("src"));
+		
+		return result;
 		
 	}
 
