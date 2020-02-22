@@ -5,6 +5,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import com.fon.footballfantasy.parser.FixturesPageHtmlParser;
 import com.fon.footballfantasy.parser.MatchPageHtmlParser;
 import com.fon.footballfantasy.parser.SeasonClubPageHtmlParser;
 
@@ -17,10 +18,14 @@ public class AppStartupRunner implements ApplicationRunner {
 	@Autowired
 	MatchPageHtmlParser matchParser;
 	
+	@Autowired
+	FixturesPageHtmlParser fixturesParser;
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		//playerParser.getSeasonClubs();
-		matchParser.parse("/b6d88aea/Vozdovac-TSC-Backa-Top-July-19-2019-Serbian-SuperLiga");
+		//matchParser.parse("/b6d88aea/Vozdovac-TSC-Backa-Top-July-19-2019-Serbian-SuperLiga");
+		fixturesParser.parse();
 	}
 
 }

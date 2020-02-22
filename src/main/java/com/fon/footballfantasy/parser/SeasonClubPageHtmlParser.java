@@ -37,7 +37,6 @@ public class SeasonClubPageHtmlParser {
 				club.setPlayers((List<Player>) clubMap.get("players"));
 				club.setImage((String) clubMap.get("image"));
 				seasonClubs.add(club);
-				System.out.println(club);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

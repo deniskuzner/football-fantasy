@@ -27,6 +27,8 @@ public class Match implements Serializable {
 	private LocalTime time;
 	private Club host;
 	private Club guest;
+	private String venue;
+	private int gameweekOrderNumber;
 	private List<MatchEvent> events;
 	
 }

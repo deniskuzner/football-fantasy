@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @ToString
 @SuperBuilder
-public class Foul extends MatchEvent {
+public class Card extends MatchEvent {
 
 	private static final long serialVersionUID = 7192953543393167229L;
 	
