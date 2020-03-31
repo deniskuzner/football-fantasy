@@ -1,0 +1,36 @@
+databaseChangeLog:
+
+   - changeSet:
+      id: club
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Clubs
+           strip-comments: true
+           sql: |
+           
+              create table clubs(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 url varchar(40) not null, 
+                 name varchar(40) not null,
+                 image varchar(100));
+
+              create table players(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 url varchar(40) not null, 
+                 name varchar(40) not null,
+                 nationality varchar(40),
+                 birth_date varchar(40),
+                 age varchar(10),
+                 position varchar(10),
+                 height varchar(10),
+                 weight varchar(10),
+                 image varchar(100),
+                 club_id bigint);
+
+              alter table players add constraint fk_players_club foreign key(club_id) references clubs(id);
