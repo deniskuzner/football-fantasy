@@ -3,7 +3,6 @@ package com.fon.footballfantasy.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Club;
-import com.fon.footballfantasy.domain.Player;
 
 @Component
 public class SeasonClubPageHtmlParser {
@@ -32,10 +30,7 @@ public class SeasonClubPageHtmlParser {
 			rows.remove(8);
 
 			for (Element row : rows) {
-				Club club = Club.builder().url(row.select("td a").get(0).attr("href")).name(row.select("td a").get(0).text()).build();
-				Map<String,Object> clubMap = parser.parse(club.getUrl());
-				club.setPlayers((List<Player>) clubMap.get("players"));
-				club.setImage((String) clubMap.get("image"));
+				Club club = parser.parse(row.select("td a").get(0).attr("href").substring(10));
 				seasonClubs.add(club);
 			}
 		} catch (IOException e) {
