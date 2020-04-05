@@ -1,12 +1,12 @@
 databaseChangeLog:
 
    - changeSet:
-      id: club
+      id: clubs-players
       author: deniskuzner@gmail.com
       
       changes:
          - sql:
-           comment: Clubs
+           comment: Clubs and players
            strip-comments: true
            sql: |
            

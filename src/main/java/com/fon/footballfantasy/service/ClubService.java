@@ -9,11 +9,13 @@ import com.fon.footballfantasy.domain.Club;
 
 public interface ClubService {
 	
-	List<Club> saveSeasonClubs();
+	List<Club> parseSeasonClubs();
 	
 	Club save(Club club);
 	
 	Club getById(@NotNull @Min(1) Long id);
+	
+	Club getByUrl(@NotNull String url);
 	
 	List<Club> getAll();
 	

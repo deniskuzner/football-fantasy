@@ -38,7 +38,7 @@ public class Club implements Serializable {
 	private String url;
 	private String name;
 	private String image;
-	@OneToMany(mappedBy = "club", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Player> players;
 
 }

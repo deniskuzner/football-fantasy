@@ -21,12 +21,12 @@ public class ClubPageHtmlParser {
 	public Club parse(String clubUrl) throws IOException {
 
 		Document document = Jsoup.connect(URL + clubUrl).timeout(10000).get();
-		
+
 		String clubImage = document.select("img.teamlogo").attr("src");
 		String fullClubName = document.select("div#meta div h1 span").text();
 		String clubName = fullClubName.substring(fullClubName.indexOf(" "), fullClubName.lastIndexOf(" ")).trim();
 		Club result = Club.builder().url(clubUrl).name(clubName).image(clubImage).build();
-		
+
 		Element table = document.getElementsByTag("table").get(0);
 		Elements rows = table.select("tbody tr");
 
@@ -42,18 +42,28 @@ public class ClubPageHtmlParser {
 
 			Element playerPage = Jsoup.connect("https://fbref.com" + url).timeout(10000).get();
 
+			// Last club check
+			Elements careerClubsRows = playerPage.select("table.stats_table tbody tr#stats");
+			if(careerClubsRows.isEmpty())
+				continue;
+			
+			String lastClubUrl = careerClubsRows.last().select("td a").get(0).attr("href").substring(10);
+			if(!lastClubUrl.equals(clubUrl))
+				continue;
+			
+			// Player info
 			Element playerInfo = playerPage.getElementById("info");
 			String image = playerInfo.select("img").attr("src");
 			String height = playerInfo.getElementsByAttributeValue("itemprop", "height").text();
 			String weight = playerInfo.getElementsByAttributeValue("itemprop", "weight").text();
 			String birthDate = playerInfo.getElementsByAttributeValue("itemprop", "birthDate").attr("data-birth");
 
-			Player p = Player.builder().url(url.substring(11)).name(name).nationality(nationality).position(position).age(age)
-					.image(image).height(height).weight(weight).birthDate(birthDate).club(result).build();
+			Player p = Player.builder().url(url.substring(11)).name(name).nationality(nationality).position(position)
+					.age(age).image(image).height(height).weight(weight).birthDate(birthDate).club(result).build();
 
 			players.add(p);
 		}
-		
+
 		result.setPlayers(players);
 
 		return result;

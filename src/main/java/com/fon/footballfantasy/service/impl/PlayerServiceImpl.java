@@ -2,9 +2,6 @@ package com.fon.footballfantasy.service.impl;
 
 import java.util.List;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +21,16 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public Player save(Player player) {
+		Player p = playerRepository.findByUrl(player.getUrl());
+		if(p != null) {
+			player.setId(p.getId());
+			player.setCreatedOn(p.getCreatedOn());
+		}
 		return playerRepository.save(player);
 	}
 
 	@Override
-	public Player getById(@NotNull @Min(1) Long id) {
+	public Player getById(Long id) {
 		return playerRepository.findById(id).get();
 	}
 
@@ -38,7 +40,7 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public void deleteById(@NotNull @Min(1) Long id) {
+	public void deleteById(Long id) {
 		playerRepository.deleteById(id);
 	}
 

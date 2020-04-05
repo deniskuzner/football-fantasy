@@ -17,36 +17,37 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class ClubServiceTest extends BaseRepositoryTest {
-	
+
 	@Autowired
 	ClubService clubService;
-	
+
 	@Autowired
 	ClubPageHtmlParser parser;
-	
+
 	@Test
 	void testSave() throws IOException {
-		
+
 		log.info("Saving single club with players");
-		
+
 		Club club = parser.parse("/69eacba4/TSC-Backa-Top");
 		club = clubService.save(club);
-		
+
 		assertNotNull(club);
 		assertNotNull(club.getPlayers());
+		assertEquals(29, club.getPlayers().size());
 		
 	}
 
 	@Test
-	void testSaveSeasonClubs() {
-		
+	void testParseSeasonClubs() {
+
 		log.info("Saving season clubs");
-		
-		clubService.saveSeasonClubs();
+
+		clubService.parseSeasonClubs();
 		List<Club> clubs = clubService.getAll();
-		
+
 		assertEquals(16, clubs.size());
-		
+
 	}
-	
+
 }

@@ -7,7 +7,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Transactional
+//@Transactional
 public class BaseRepositoryTest {
 
 }
