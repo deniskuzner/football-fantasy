@@ -42,17 +42,18 @@ public class ClubPageHtmlParser {
 
 			Element playerPage = Jsoup.connect("https://fbref.com" + url).timeout(10000).get();
 
+			Element playerInfo = playerPage.getElementById("meta");
+			
 			// Last club check
-			Elements careerClubsRows = playerPage.select("table.stats_table tbody tr#stats");
-			if(careerClubsRows.isEmpty())
+			String lastClub = playerInfo.select("a").attr("href");
+			if(lastClub.isEmpty())
 				continue;
 			
-			String lastClubUrl = careerClubsRows.last().select("td a").get(0).attr("href").substring(10);
+			String lastClubUrl = lastClub.substring(10);
 			if(!lastClubUrl.equals(clubUrl))
 				continue;
 			
 			// Player info
-			Element playerInfo = playerPage.getElementById("info");
 			String image = playerInfo.select("img").attr("src");
 			String height = playerInfo.getElementsByAttributeValue("itemprop", "height").text();
 			String weight = playerInfo.getElementsByAttributeValue("itemprop", "weight").text();
@@ -63,7 +64,6 @@ public class ClubPageHtmlParser {
 
 			players.add(p);
 		}
-
 		result.setPlayers(players);
 
 		return result;
