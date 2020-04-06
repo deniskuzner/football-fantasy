@@ -34,3 +34,51 @@ databaseChangeLog:
                  club_id bigint);
 
               alter table players add constraint fk_players_club foreign key(club_id) references clubs(id);
+
+   - changeSet:
+      id: gameweeks-matches
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Gameweeks and matches
+           strip-comments: true
+           sql: |
+           
+              create table gameweeks(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 order_number int not null);
+
+              create table matches(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 url varchar(100),
+                 result varchar(10),
+                 date_time timestamp default current_timestamp,
+                 venue varchar(50),
+                 host_id bigint,
+                 guest_id bigint,
+                 gameweek_id bigint not null);
+
+              alter table matches add constraint fk_host_club foreign key(host_id) references clubs(id);
+              alter table matches add constraint fk_guest_club foreign key(guest_id) references clubs(id);
+              alter table matches add constraint fk_match_gameweek foreign key(gameweek_id) references gameweeks(id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -44,7 +44,7 @@ class ClubServiceTest extends BaseRepositoryTest {
 		log.info("Saving season clubs");
 
 		clubService.parseSeasonClubs();
-		List<Club> clubs = clubService.getAll();
+		List<Club> clubs = clubService.findAll();
 
 		assertEquals(16, clubs.size());
 

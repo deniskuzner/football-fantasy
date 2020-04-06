@@ -51,6 +51,8 @@ class ClubRepositoryTest extends BaseRepositoryTest {
 		
 		p1.setAge("26");
 		p2.setAge("29");
+		playerRepository.save(p1);
+		playerRepository.save(p2);
 		
 		Club updatedClub = clubRepository.findById(club.getId()).get();
 		assertEquals("26", updatedClub.getPlayers().get(0).getAge());

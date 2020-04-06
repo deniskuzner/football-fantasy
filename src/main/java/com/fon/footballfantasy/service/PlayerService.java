@@ -11,9 +11,11 @@ public interface PlayerService {
 
 	Player save(Player player);
 
-	Player getById(@NotNull @Min(1) Long id);
+	Player findById(@NotNull @Min(1) Long id);
+	
+	Player findByUrl(@NotNull String url);
 
-	List<Player> getAll();
+	List<Player> findAll();
 
 	void deleteById(@NotNull @Min(1) Long id);
 

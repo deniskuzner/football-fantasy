@@ -57,17 +57,17 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public Club getById(Long id) {
+	public Club findById(Long id) {
 		return clubRepository.findById(id).get();
 	}
 	
 	@Override
-	public Club getByUrl(String url) {
+	public Club findByUrl(String url) {
 		return clubRepository.findByUrl(url);
 	}
 
 	@Override
-	public List<Club> getAll() {
+	public List<Club> findAll() {
 		return (List<Club>) clubRepository.findAll();
 	}
 

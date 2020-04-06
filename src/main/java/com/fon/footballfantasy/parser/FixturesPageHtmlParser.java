@@ -1,7 +1,7 @@
 package com.fon.footballfantasy.parser;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,35 +31,38 @@ public class FixturesPageHtmlParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		Elements rows = document.select("table tbody tr");
-		
 		List<Match> allMatches = new ArrayList<>();
 		
 		for (Element row : rows) {
-			
 			if(row.hasClass("spacer"))
 				continue;
 			
 			String matchUrl = row.getElementsByAttributeValue("data-stat", "match_report").get(0).select("a").attr("href");
 			int gameweekOrderNumber = Integer.parseInt(row.getElementsByAttributeValue("data-stat", "gameweek").get(0).text());
-			LocalDate date = LocalDate.parse(row.getElementsByAttributeValue("data-stat", "date").get(0).text());
-			String timeString = row.getElementsByAttributeValue("data-stat", "time").get(0).text();
-			LocalTime time = timeString.isEmpty() ? LocalTime.parse("00:00") :LocalTime.parse(row.getElementsByAttributeValue("data-stat", "time").get(0).text());
-			Club host = Club.builder().url(row.getElementsByAttributeValue("data-stat", "squad_a").get(0).select("a").attr("href")).build();
-			Club guest = Club.builder().url(row.getElementsByAttributeValue("data-stat", "squad_b").get(0).select("a").attr("href")).build();
+			Gameweek gameweek = Gameweek.builder().orderNumber(gameweekOrderNumber).build();
+			String date = row.getElementsByAttributeValue("data-stat", "date").get(0).text();
+			String time = row.getElementsByAttributeValue("data-stat", "time").get(0).text();
+			LocalDateTime dateTime = LocalDateTime.parse(date + "T" + (time.isEmpty() ? "00:00" :LocalTime.parse(time)));
+			Club host = Club.builder().url(row.getElementsByAttributeValue("data-stat", "squad_a").get(0).select("a").attr("href").substring(10)).build();
+			Club guest = Club.builder().url(row.getElementsByAttributeValue("data-stat", "squad_b").get(0).select("a").attr("href").substring(10)).build();
 			String venue = row.getElementsByAttributeValue("data-stat", "venue").get(0).text();
-			
-			Match match = Match.builder().url(matchUrl).gameweekOrderNumber(gameweekOrderNumber).date(date).time(time).host(host).guest(guest).venue(venue).build();
-			
+			Match match = Match.builder().url(matchUrl.isEmpty() ? null : matchUrl).gameweek(gameweek).dateTime(dateTime).host(host).guest(guest).venue(venue).build();
 			allMatches.add(match);
 		}
 		
-		List<Integer> gameweekOrderNumbers = allMatches.stream().map(Match::getGameweekOrderNumber).distinct().collect(Collectors.toList());
+		List<Integer> gameweekOrderNumbers = allMatches.stream().map(m -> m.getGameweek().getOrderNumber()).distinct().collect(Collectors.toList());
 		
 		for (Integer i : gameweekOrderNumbers) {
-			List<Match> gameweekMatches = allMatches.stream().filter(m -> m.getGameweekOrderNumber() == i).collect(Collectors.toList());
-			Gameweek gameweek = Gameweek.builder().orderNumber(i).matches(gameweekMatches).build();
+			Gameweek gameweek = Gameweek.builder().orderNumber(i).build();
+			List<Match> gameweekMatches = allMatches.stream()
+					.filter(m -> m.getGameweek().getOrderNumber() == i)
+					.map(m -> {m.setGameweek(gameweek);
+							   return m;})
+					.collect(Collectors.toList());
 			
+			gameweek.setMatches(gameweekMatches);
 			result.add(gameweek);
 		}
 		

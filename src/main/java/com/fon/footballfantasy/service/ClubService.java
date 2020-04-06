@@ -13,11 +13,11 @@ public interface ClubService {
 	
 	Club save(Club club);
 	
-	Club getById(@NotNull @Min(1) Long id);
+	Club findById(@NotNull @Min(1) Long id);
 	
-	Club getByUrl(@NotNull String url);
+	Club findByUrl(@NotNull String url);
 	
-	List<Club> getAll();
+	List<Club> findAll();
 	
 	void deleteById(@NotNull @Min(1) Long id);
 

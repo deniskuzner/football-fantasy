@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Club;
 import com.fon.footballfantasy.domain.Player;
-import com.fon.footballfantasy.repository.ClubRepository;
+import com.fon.footballfantasy.service.ClubService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ClubSetup {
 	
 	@Autowired
-	ClubRepository clubRepository;
+	ClubService clubService;
 	
 	public Club getSetup() {
 		
@@ -36,9 +36,7 @@ public class ClubSetup {
 		
 		club.setPlayers(Arrays.asList(p1,p2));
 		
-		clubRepository.save(club);
-		
-		return club;
+		return clubService.save(club);
 	}
 
 }
