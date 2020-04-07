@@ -3,11 +3,14 @@ package com.fon.footballfantasy.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.domain.Match;
+import com.fon.footballfantasy.exception.MatchException;
+import com.fon.footballfantasy.exception.MatchException.MatchExceptionCode;
 import com.fon.footballfantasy.repository.MatchRepository;
 import com.fon.footballfantasy.service.ClubService;
 import com.fon.footballfantasy.service.MatchService;
@@ -25,6 +28,8 @@ public class MatchServiceImpl implements MatchService {
 
 	@Override
 	public Match save(Match match) {
+		String hostUrl = match.getHost().getUrl();
+		String guestUrl = match.getGuest().getUrl();
 		// Postavljanje klubova
 		if(match.getHost().getId() == null || match.getGuest().getId() == null)
 			setClubs(match);
@@ -36,7 +41,15 @@ public class MatchServiceImpl implements MatchService {
 			match.setCreatedOn(m.getCreatedOn());
 		}
 		
-		return matchRepository.save(match);
+		try {
+			matchRepository.save(match);
+		} catch (DataIntegrityViolationException e) {
+			throw new MatchException(MatchExceptionCode.CLUBS_NOT_FOUND,
+				"MATCH %s clubs not found! MATCH DATE: %s, HOST URL: %s, GUEST URL: %s", 
+				match.getUrl() == null ? "" : "URL: " + match.getUrl(), match.getDateTime(), hostUrl, guestUrl);
+		}
+		
+		return match;
 	}
 
 	@Override
@@ -62,9 +75,6 @@ public class MatchServiceImpl implements MatchService {
 	private void setClubs(Match match) {
 		match.setHost(clubService.findByUrl(match.getHost().getUrl()));
 		match.setGuest(clubService.findByUrl(match.getGuest().getUrl()));
-		if(match.getHost() == null || match.getGuest() == null) {
-			//TODO Baciti custom exception sa porukom "Match (id: %id): clubs don't exist!"
-		}
 	}
 	
 	private Match findMatch(Match match) {

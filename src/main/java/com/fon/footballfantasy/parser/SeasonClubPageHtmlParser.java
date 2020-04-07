@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Club;
+import com.fon.footballfantasy.exception.HtmlParserException;
 
 @Component
 public class SeasonClubPageHtmlParser {
@@ -34,7 +35,7 @@ public class SeasonClubPageHtmlParser {
 				seasonClubs.add(club);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new HtmlParserException("Page could not be found: " + URL, e);
 		}
 		
 		return seasonClubs;

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import com.fon.footballfantasy.domain.Club;
 import com.fon.footballfantasy.domain.Gameweek;
 import com.fon.footballfantasy.domain.Match;
+import com.fon.footballfantasy.exception.HtmlParserException;
 
 @Component
 public class FixturesPageHtmlParser {
@@ -29,7 +30,7 @@ public class FixturesPageHtmlParser {
 		try {
 			document = Jsoup.connect(URL).timeout(10000).get();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new HtmlParserException("Page could not be found: " + URL, e);
 		}
 
 		Elements rows = document.select("table tbody tr");

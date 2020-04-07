@@ -1,5 +1,7 @@
 package com.fon.footballfantasy.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,10 +14,18 @@ class GameweekServiceTest extends BaseRepositoryTest {
 	
 	@Autowired
 	GameweekService gameweekService;
+	
+	@Autowired
+	MatchService matchService;
 
 	@Test
-	void test() {
+	void testParseSeasonGameweek() {
+		
+		log.info("Parse season gameweeks");
+		
 		gameweekService.parseSeasonGameweeks();
+		assertEquals(30, gameweekService.findAll().size());
+		assertEquals(240, matchService.findAll().size());
 	}
-
+	
 }

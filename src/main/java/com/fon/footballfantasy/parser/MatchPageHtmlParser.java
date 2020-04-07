@@ -17,17 +17,23 @@ import com.fon.footballfantasy.domain.MatchEvent;
 import com.fon.footballfantasy.domain.MinutesPlayed;
 import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.domain.Substitution;
+import com.fon.footballfantasy.exception.HtmlParserException;
 
 @Component
 public class MatchPageHtmlParser {
 
 	private static final String URL = "https://fbref.com/en/matches";
 
-	public List<MatchEvent> parse(String matchUrl) throws IOException {
+	public List<MatchEvent> parse(String matchUrl) {
 
 		List<MatchEvent> result = new ArrayList<>();
 
-		Document document = Jsoup.connect(URL + matchUrl).timeout(10000).get();
+		Document document;
+		try {
+			document = Jsoup.connect(URL + matchUrl).timeout(10000).get();
+		} catch (IOException e) {
+			throw new HtmlParserException("Page could not be found: " + URL + matchUrl, e);
+		}
 		
 		// Adding minutes played for host and guest players
 		Elements statsTables = document.select("table.stats_table tbody");
