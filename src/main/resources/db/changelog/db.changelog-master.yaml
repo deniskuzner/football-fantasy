@@ -67,18 +67,61 @@ databaseChangeLog:
               alter table matches add constraint fk_guest_club foreign key(guest_id) references clubs(id);
               alter table matches add constraint fk_match_gameweek foreign key(gameweek_id) references gameweeks(id);
 
+   - changeSet:
+      id: match-events
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Match events, cards, goals, minutes played and substitutions
+           strip-comments: true
+           sql: |
 
+              create table match_events(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 match_id bigint not null,
+                 minute int not null,
+                 club_id bigint not null);
 
+              alter table match_events add constraint fk_event_match foreign key(match_id) references matches(id);
+              alter table match_events add constraint fk_event_club foreign key(club_id) references clubs(id);
 
+              create table cards(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 card varchar(50) not null,
+                 player_id bigint not null);
 
+              alter table cards add constraint fk_card_player foreign key(player_id) references players(id);
 
+              create table goals(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 goal_player_id bigint not null,
+                 assist_player_id bigint not null);
 
+              alter table goals add constraint fk_goal_player foreign key(goal_player_id) references players(id);
+              alter table goals add constraint fk_assist_player foreign key(assist_player_id) references players(id);
 
+              create table minutes_played(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 minutes_played int not null,
+                 player_id bigint not null);
 
+              alter table minutes_played add constraint fk_player_minutes foreign key(player_id) references players(id);
 
+              create table substitutions(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 in_player_id bigint not null,
+                 out_player_id bigint not null);
 
-
-
-
-
-
+              alter table substitutions add constraint fk_in_player foreign key(in_player_id) references players(id);
+              alter table substitutions add constraint fk_out_player foreign key(out_player_id) references players(id);
