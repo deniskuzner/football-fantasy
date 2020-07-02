@@ -1,0 +1,51 @@
+package com.fon.footballfantasy.rest;
+
+import javax.websocket.server.PathParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fon.footballfantasy.domain.Match;
+import com.fon.footballfantasy.service.MatchService;
+
+@RestController
+@RequestMapping("/match")
+public class MatchController {
+
+	@Autowired
+	MatchService matchService;
+
+	@PostMapping(value = "/match")
+	ResponseEntity<?> save(@RequestBody Match match) {
+		return new ResponseEntity<>(matchService.save(match), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/match/{id}")
+	ResponseEntity<?> findById(@PathParam("id") Long id) {
+		return new ResponseEntity<>(matchService.findById(id), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/match/url/{url}")
+	ResponseEntity<?> findByUrl(@PathParam("url") String url) {
+		return new ResponseEntity<>(matchService.findByUrl(url), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/all")
+	ResponseEntity<?> findAll() {
+		return new ResponseEntity<>(matchService.findAll(), HttpStatus.OK);
+	}
+
+	@DeleteMapping(value = "/match{id}")
+	ResponseEntity<?> deleteById(@PathParam("id") Long id) {
+		matchService.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+}

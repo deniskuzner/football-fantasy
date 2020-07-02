@@ -9,18 +9,16 @@ import com.fon.footballfantasy.domain.MatchEvent;
 
 public interface MatchEventService {
 
-	void parseMatchEventsByMatchUrl(@NotNull String matchUrl);
+	List<MatchEvent> parseMatchEventsByGameweekId(@NotNull @Min(1) Long gameweekId);
 	
-	void parseMatchEventsByGameweekId(@NotNull @Min(1) Long gameweekId);
+	List<MatchEvent> parseMatchEventsByMatchUrl(@NotNull String matchUrl);	
 
 	MatchEvent save(MatchEvent matchEvent);
 
-	MatchEvent findById(@NotNull @Min(1) Long id);
-	
 	List<MatchEvent> findByMatchId(@NotNull @Min(1) Long matchId);
-
-	List<MatchEvent> findAll();
 
 	void deleteById(@NotNull @Min(1) Long id);
 
+	//Future<List<MatchEventMessage>> sendMatchEvents(SendMatchEventsRequest request);
+	
 }

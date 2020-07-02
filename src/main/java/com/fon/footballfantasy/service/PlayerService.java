@@ -13,6 +13,7 @@ public interface PlayerService {
 
 	Player findById(@NotNull @Min(1) Long id);
 	
+	// mozda nije potrebno
 	Player findByUrl(@NotNull String url);
 
 	List<Player> findAll();
