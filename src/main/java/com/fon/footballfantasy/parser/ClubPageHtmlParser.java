@@ -29,8 +29,10 @@ public class ClubPageHtmlParser {
 
 		String clubImage = document.select("img.teamlogo").attr("src");
 		String fullClubName = document.select("div#meta div h1 span").text();
-		String clubName = fullClubName.substring(fullClubName.indexOf(" "), fullClubName.lastIndexOf(" ")).trim();
-		Club result = Club.builder().url(clubUrl).name(clubName).image(clubImage).build();
+		String clubName = fullClubName.substring(fullClubName.indexOf(" "), fullClubName.lastIndexOf(" Stats")).trim();
+		String fullManagerName = document.select("div#meta div p").get(3).text();
+		String manager = fullManagerName.substring(fullManagerName.indexOf(": ") + 1).trim();
+		Club result = Club.builder().url(clubUrl).name(clubName).manager(manager).image(clubImage).build();
 
 		Elements rows = document.getElementsByTag("table").get(0).select("tbody tr");
 		List<Player> players = getPlayers(rows, result);
@@ -47,6 +49,9 @@ public class ClubPageHtmlParser {
 			String nationality = row.select("td").get(0).text().substring(row.select("td").get(0).text().indexOf(" ") + 1);
 			String position = row.select("td").get(1).text();
 			String age = row.select("td").get(2).text();
+			
+			if(url.isEmpty())
+				continue;
 
 			Element playerPage;
 			try {

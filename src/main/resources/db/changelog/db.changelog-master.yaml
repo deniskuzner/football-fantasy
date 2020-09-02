@@ -16,6 +16,7 @@ databaseChangeLog:
                  modified_on timestamp not null default current_timestamp, 
                  url varchar(40) not null, 
                  name varchar(40) not null,
+                 manager varchar(40) not null,
                  image varchar(100));
 
               create table players(

@@ -2,6 +2,8 @@ package com.fon.footballfantasy.service.impl;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.domain.Club;
 import com.fon.footballfantasy.domain.Player;
+import com.fon.footballfantasy.parser.ClubPageHtmlParser;
 import com.fon.footballfantasy.parser.SeasonClubPageHtmlParser;
 import com.fon.footballfantasy.repository.ClubRepository;
 import com.fon.footballfantasy.service.ClubService;
@@ -20,7 +23,10 @@ import com.fon.footballfantasy.service.PlayerService;
 public class ClubServiceImpl implements ClubService {
 	
 	@Autowired
-	SeasonClubPageHtmlParser clubParser;
+	SeasonClubPageHtmlParser seasonClubParser;
+	
+	@Autowired
+	ClubPageHtmlParser clubParser;
 	
 	@Autowired
 	ClubRepository clubRepository;
@@ -30,13 +36,19 @@ public class ClubServiceImpl implements ClubService {
 
 	@Override
 	public List<Club> parseSeasonClubs() {
-		List<Club> clubs = clubParser.getSeasonClubs();
-		
+		List<Club> clubs = seasonClubParser.getSeasonClubs();
 		for (Club club : clubs) {
 			save(club);
 		}
 		
 		return clubs;
+	}
+	
+	@Override
+	public Club parseClubByUrl(@NotNull String url) {
+		Club club = clubParser.parse(url);
+		save(club);
+		return club;
 	}
 
 	@Override
@@ -74,6 +86,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public void deleteById(Long id) {
 		clubRepository.deleteById(id);
+	}
+
+	@Override
+	public void deleteAll() {
+		clubRepository.deleteAll();
 	}
 
 }

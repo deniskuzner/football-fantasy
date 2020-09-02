@@ -11,6 +11,8 @@ public interface ClubService {
 	
 	List<Club> parseSeasonClubs();
 	
+	Club parseClubByUrl(@NotNull String url);
+	
 	Club save(Club club);
 	
 	Club findById(@NotNull @Min(1) Long id);
@@ -21,5 +23,7 @@ public interface ClubService {
 	List<Club> findAll();
 	
 	void deleteById(@NotNull @Min(1) Long id);
+	
+	void deleteAll();
 
 }

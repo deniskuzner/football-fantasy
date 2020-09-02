@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,8 +43,16 @@ public class Club implements Serializable {
 	
 	private String url;
 	private String name;
+	private String manager;
 	private String image;
+	@JsonIgnore
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Player> players;
+	
+	@Override
+	public String toString() {
+		return "Club [id=" + id + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + ", url=" + url + ", name="
+				+ name + ", image=" + image + "]";
+	}
 
 }

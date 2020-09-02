@@ -30,6 +30,8 @@ public class MatchEventServiceImpl implements MatchEventService {
 	@Autowired
 	MatchPageHtmlParser matchPageHtmlParser;
 
+	
+	//TODO VIDETI STA SE OVDE RADI, DELUJE DA FALI SAVE I SLANJE STATS SERVISU
 	@Override
 	public List<MatchEvent> parseMatchEventsByGameweekId(Long gameweekId) {
 		List<MatchEvent> matchEvents = new ArrayList<>();
@@ -40,6 +42,7 @@ public class MatchEventServiceImpl implements MatchEventService {
 		return matchEvents;
 	} 
 	
+	// FALI SLANJE STATS SERVISU
 	@Override
 	public List<MatchEvent> parseMatchEventsByMatchUrl(String matchUrl) {
 		List<MatchEvent> matchEvents = matchPageHtmlParser.parse(matchUrl);

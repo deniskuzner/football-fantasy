@@ -27,6 +27,18 @@ class MatchEventRepositoryTest extends BaseRepositoryTest {
 	@Autowired
 	MatchEventSetup matchEventSetup;
 	
+	@Autowired
+	PlayerRepository playerRepository;
+	
+	@Autowired
+	GameweekRepository gameweekRepository;
+	
+	@Autowired
+	MatchRepository matchRepository;
+	
+	@Autowired
+	ClubRepository clubRepository;
+	
 	@Test
 	public void testCrud() {
 		
@@ -40,7 +52,7 @@ class MatchEventRepositoryTest extends BaseRepositoryTest {
 		
 		log.info("Getting all match events");
 		List<MatchEvent> allMatchEvents = (List<MatchEvent>) matchEventRepository.findAll();
-		assertEquals(4, matchEvents.size());
+		assertEquals(4, allMatchEvents.size());
 		
 		log.info("Goal event");
 		MatchEvent me1 = matchEventRepository.findById(goal.getId()).get();
@@ -88,6 +100,13 @@ class MatchEventRepositoryTest extends BaseRepositoryTest {
 	public void deleteAll() {
 		matchEventRepository.deleteAll();
 		assertEquals(0, ((List<MatchEvent>) matchEventRepository.findAll()).size());
+		
+		log.info("Deleting everything");
+		
+		playerRepository.deleteAll();
+		matchRepository.deleteAll();
+		clubRepository.deleteAll();
+		gameweekRepository.deleteAll();
 	}
 
 
