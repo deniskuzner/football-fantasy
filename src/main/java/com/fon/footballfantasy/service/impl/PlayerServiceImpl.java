@@ -41,7 +41,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public List<Player> findAll() {
-		return (List<Player>) playerRepository.findByOrderByClubNameAsc();
+		return (List<Player>) playerRepository.findAll();
 	}
 
 	@Override

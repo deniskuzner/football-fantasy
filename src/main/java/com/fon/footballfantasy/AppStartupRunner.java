@@ -30,7 +30,7 @@ public class AppStartupRunner implements ApplicationRunner {
 		//seasonClubParser.getSeasonClubs();
 		//matchParser.parse("/f79f653c/Partizan-Indjija-August-22-2020-Serbian-SuperLiga");
 		//fixturesParser.parse();
-		//clubParser.parse("/69eacba4/TSC-Backa-Top");
+		//clubParser.parse("/72804f2b/Radnicki-Nis-Stats");
 	}
 
 }

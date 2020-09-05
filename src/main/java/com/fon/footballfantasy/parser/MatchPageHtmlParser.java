@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Card;
@@ -23,6 +25,7 @@ import com.fon.footballfantasy.exception.HtmlParserException;
 public class MatchPageHtmlParser {
 
 	private static final String URL = "https://fbref.com/en/matches";
+	private static final Logger LOGGER = LoggerFactory.getLogger(MatchPageHtmlParser.class);
 
 	public List<MatchEvent> parse(String matchUrl) {
 
@@ -35,13 +38,14 @@ public class MatchPageHtmlParser {
 			throw new HtmlParserException("Page could not be found: " + URL + matchUrl, e);
 		}
 		
-		// Adding minutes played for host and guest players
-		Elements statsTables = document.select("table.stats_table tbody");
-		result.addAll(getMinutesPlayed(statsTables));
 		
 		Elements clubs = document.getElementsByAttributeValue("itemprop", "performer");
-		Club hostDTO = Club.builder().url(clubs.get(0).getElementsByAttributeValue("itemprop", "name").attr("href")).build();
-		Club guestDTO = Club.builder().url(clubs.get(1).getElementsByAttributeValue("itemprop", "name").attr("href")).build();
+		Club hostDTO = Club.builder().url(clubs.get(0).getElementsByAttributeValue("itemprop", "name").attr("href").replace("/en/squads", "")).build();
+		Club guestDTO = Club.builder().url(clubs.get(1).getElementsByAttributeValue("itemprop", "name").attr("href").replace("/en/squads", "")).build();
+
+		// Adding minutes played for host and guest players
+		Elements statsTables = document.select("table.stats_table tbody");
+		result.addAll(getMinutesPlayed(statsTables, hostDTO, guestDTO));
 
 		// Adding goal, card and substitution events
 		Elements events= document.select("#events_wrap div.event");
@@ -50,14 +54,13 @@ public class MatchPageHtmlParser {
 		return result;
 	}
 	
-	private List<MinutesPlayed> getMinutesPlayed(Elements statsTables) {
+	private List<MinutesPlayed> getMinutesPlayed(Elements statsTables, Club hostDTO, Club guestDTO) {
 		List<MinutesPlayed> result = new ArrayList<>();
-		Elements allPlayersRows = new Elements();
-		allPlayersRows.addAll(statsTables.get(0).select("tr"));
-		allPlayersRows.addAll(statsTables.get(2).select("tr"));
+		Elements hostPlayersRows = statsTables.get(0).select("tr");
+		Elements guestPlayersRows = statsTables.get(2).select("tr");
 		
-		for (Element hostPlayer : allPlayersRows) {
-			Player player = Player.builder().url(hostPlayer.select("th a").attr("href")).build();
+		for (Element hostPlayer : hostPlayersRows) {
+			Player player = Player.builder().url(hostPlayer.select("th a").attr("href").replace("/en/players", "")).build();
 			int minutesPlayed;
 			try {
 				minutesPlayed = Integer.parseInt(hostPlayer.getElementsByAttributeValue("data-stat", "minutes").text());
@@ -65,7 +68,18 @@ public class MatchPageHtmlParser {
 				minutesPlayed = 0;
 			}
 			result.add(MinutesPlayed.builder().player(player)
-					.minutesPlayed(minutesPlayed).build());
+					.minutesPlayed(minutesPlayed).minute("").club(hostDTO).build());
+		}
+		for (Element guestPlayer : guestPlayersRows) {
+			Player player = Player.builder().url(guestPlayer.select("th a").attr("href").replace("/en/players", "")).build();
+			int minutesPlayed;
+			try {
+				minutesPlayed = Integer.parseInt(guestPlayer.getElementsByAttributeValue("data-stat", "minutes").text());
+			} catch (NumberFormatException e) {
+				minutesPlayed = 0;
+			}
+			result.add(MinutesPlayed.builder().player(player)
+					.minutesPlayed(minutesPlayed).minute("").club(guestDTO).build());
 		}
 
 		return result;
@@ -78,7 +92,7 @@ public class MatchPageHtmlParser {
 			MatchEvent matchEvent = null;
 			
 			String eventString = event.select("div").get(0).text();
-			int minute = Integer.parseInt(eventString.substring(1,eventString.indexOf("’")));
+			String minute = eventString.substring(1,eventString.indexOf("’")+1);
 			Club eventClub = null;
 			if(event.hasClass("a")) {
 				eventClub = hostDTO;
@@ -86,15 +100,15 @@ public class MatchPageHtmlParser {
 				eventClub = guestDTO;
 			}
 			
-			if(eventString.contains("Goal")) {
+			if(eventString.contains("Goal") || eventString.contains("Penalty Kick")) {
 				matchEvent = getGoal(event);
 			}
 			
-			if(eventString.contains("Card")) {
+			if(eventString.contains("Card") && !eventString.contains("Penalty Kick")) {
 				matchEvent = getCard(event, eventString.contains("Yellow") ? "YELLOW" : "RED");
 			}
 			
-			if(eventString.contains("Substitute")) {
+			if(eventString.contains("Substitute") && !eventString.contains("Own Goal") && !eventString.contains("Penalty Kick")) {
 				matchEvent = getSubstitution(event);
 			}
 			
@@ -103,6 +117,7 @@ public class MatchPageHtmlParser {
 			
 			matchEvent.setMinute(minute);
 			matchEvent.setClub(eventClub);
+			LOGGER.info("Parsed match event: {}", eventString);
 			
 			result.add(matchEvent);
 		}
@@ -111,18 +126,19 @@ public class MatchPageHtmlParser {
 	}
 
 	private Goal getGoal(Element event) {
-		Player goalPlayer = Player.builder().url(event.select("a").attr("href")).build();
-		return Goal.builder().goalPlayer(goalPlayer).assistPlayer(null).build();
+		Player goalPlayer = Player.builder().url(event.select("a").attr("href").replace("/en/players", "")).build();
+		boolean ownGoal = event.select("div").get(0).text().contains("Own Goal") ? true : false;
+		return Goal.builder().goalPlayer(goalPlayer).ownGoal(ownGoal).build();
 	}
 
 	private Card getCard(Element event, String card) {
-		Player player = Player.builder().url(event.select("a").attr("href")).build();
+		Player player = Player.builder().url(event.select("a").attr("href").replace("/en/players", "")).build();
 		return Card.builder().card(card).player(player).build();
 	}
 
 	private Substitution getSubstitution(Element event) {
-		Player inPlayer = Player.builder().url(event.select("a").get(0).attr("href")).build();
-		Player outPlayer = Player.builder().url(event.select("a").get(1).attr("href")).build();
+		Player inPlayer = Player.builder().url(event.select("a").get(0).attr("href").replace("/en/players", "")).build();
+		Player outPlayer = Player.builder().url(event.select("a").get(1).attr("href").replace("/en/players", "")).build();
 		return Substitution.builder().inPlayer(inPlayer).outPlayer(outPlayer).build();
 	}
 

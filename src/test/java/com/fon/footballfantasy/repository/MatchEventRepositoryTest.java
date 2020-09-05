@@ -62,7 +62,6 @@ class MatchEventRepositoryTest extends BaseRepositoryTest {
 		assertEquals(me1.getMinute(), goal.getMinute());
 		assertNotNull(me1.getClub());
 		assertEquals(((Goal) me1).getGoalPlayer().getId(), ((Goal) goal).getGoalPlayer().getId());
-		assertEquals(((Goal) me1).getAssistPlayer().getId(), ((Goal) goal).getAssistPlayer().getId());
 		
 		log.info("Card event");
 		MatchEvent me2 = matchEventRepository.findById(card.getId()).get();

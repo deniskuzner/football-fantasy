@@ -38,7 +38,7 @@ public abstract class MatchEvent implements Serializable {
 	
 	@Column(name = "match_id")
 	private Long matchId;
-	private int minute;
+	private String minute;
 	@ManyToOne
 	@JoinColumn(name = "club_id")
 	private Club club;

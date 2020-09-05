@@ -1,5 +1,6 @@
 package com.fon.footballfantasy.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,8 +28,7 @@ public class Goal extends MatchEvent {
 	@ManyToOne
 	@JoinColumn(name = "goal_player_id")
 	private Player goalPlayer;
-	@ManyToOne
-	@JoinColumn(name = "assist_player_id")
-	private Player assistPlayer;
+	@Column(name = "own_goal")
+	private boolean ownGoal;
 
 }

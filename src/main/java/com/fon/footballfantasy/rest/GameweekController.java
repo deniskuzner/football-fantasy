@@ -15,13 +15,13 @@ import com.fon.footballfantasy.domain.Gameweek;
 import com.fon.footballfantasy.service.GameweekService;
 
 @RestController
-@RequestMapping("/gameweek")
+@RequestMapping("/gameweeks")
 public class GameweekController {
 
 	@Autowired
 	GameweekService gameweekService;
 
-	@PostMapping(value = "/parse-season-gameweeks")
+	@GetMapping(value = "/parse-season-gameweeks")
 	ResponseEntity<?> parseSeasonGameweeks() {
 		return new ResponseEntity<>(gameweekService.parseSeasonGameweeks(), HttpStatus.OK);
 	}

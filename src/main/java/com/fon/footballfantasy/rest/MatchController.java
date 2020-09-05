@@ -15,7 +15,7 @@ import com.fon.footballfantasy.domain.Match;
 import com.fon.footballfantasy.service.MatchService;
 
 @RestController
-@RequestMapping("/match")
+@RequestMapping("/matches")
 public class MatchController {
 
 	@Autowired

@@ -21,8 +21,9 @@ public class MatchEventController {
 	@Autowired
 	MatchEventService matchEventService;
 
-	@PostMapping(value = "/parse-match-events/gameweek/{id}")
+	@GetMapping(value = "/parse-match-events/gameweek/{id}")
 	ResponseEntity<?> parseMatchEventsByGameweekId(@PathVariable("id") Long gameweekId) {
+		// TODO: IF NULL VRATITI GRESKU
 		return new ResponseEntity<>(matchEventService.parseMatchEventsByGameweekId(gameweekId), HttpStatus.OK);
 	}
 

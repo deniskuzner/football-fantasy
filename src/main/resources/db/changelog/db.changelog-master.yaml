@@ -83,7 +83,7 @@ databaseChangeLog:
                  created_on timestamp not null default current_timestamp, 
                  modified_on timestamp not null default current_timestamp, 
                  match_id bigint not null,
-                 minute int not null,
+                 minute varchar(10) not null,
                  club_id bigint not null);
 
               alter table match_events add constraint fk_event_match foreign key(match_id) references matches(id);
@@ -103,10 +103,9 @@ databaseChangeLog:
                  created_on timestamp not null default current_timestamp, 
                  modified_on timestamp not null default current_timestamp, 
                  goal_player_id bigint not null,
-                 assist_player_id bigint not null);
+                 own_goal boolean not null);
 
               alter table goals add constraint fk_goal_player foreign key(goal_player_id) references players(id);
-              alter table goals add constraint fk_assist_player foreign key(assist_player_id) references players(id);
 
               create table minutes_played(
                  id bigint primary key auto_increment, 

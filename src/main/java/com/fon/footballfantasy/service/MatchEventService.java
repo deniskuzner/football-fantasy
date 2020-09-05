@@ -16,7 +16,7 @@ public interface MatchEventService {
 	MatchEvent save(MatchEvent matchEvent);
 
 	List<MatchEvent> findByMatchId(@NotNull @Min(1) Long matchId);
-
+	
 	void deleteById(@NotNull @Min(1) Long id);
 
 	//Future<List<MatchEventMessage>> sendMatchEvents(SendMatchEventsRequest request);

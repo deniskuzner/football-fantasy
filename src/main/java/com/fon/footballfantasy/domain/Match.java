@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -46,6 +48,7 @@ public class Match implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "guest_id")
 	private Club guest;
+	@JsonIgnoreProperties(value = "matches")
 	@ManyToOne
 	@JoinColumn(name = "gameweek_id")
 	private Gameweek gameweek;

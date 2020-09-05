@@ -34,13 +34,11 @@ public class MatchEventSetup {
 		Club club = match.getHost();
 		List<MatchEvent> setup = new ArrayList<>();
 
-		setup.add(Goal.builder().matchId(match.getId()).minute(2).club(club).goalPlayer(club.getPlayers().get(0))
-				.assistPlayer(club.getPlayers().get(1)).build());
-		setup.add(Card.builder().matchId(match.getId()).minute(4).club(club).player(club.getPlayers().get(0))
-				.card("red").build());
-		setup.add(MinutesPlayed.builder().matchId(match.getId()).minute(7).club(club).player(club.getPlayers().get(0))
+		setup.add(Goal.builder().matchId(match.getId()).minute("2").club(club).goalPlayer(club.getPlayers().get(0)).build());
+		setup.add(Card.builder().matchId(match.getId()).minute("4").club(club).player(club.getPlayers().get(0)).card("red").build());
+		setup.add(MinutesPlayed.builder().matchId(match.getId()).minute("7").club(club).player(club.getPlayers().get(0))
 				.minutesPlayed(7).build());
-		setup.add(Substitution.builder().matchId(match.getId()).minute(42).club(club).inPlayer(club.getPlayers().get(0))
+		setup.add(Substitution.builder().matchId(match.getId()).minute("42").club(club).inPlayer(club.getPlayers().get(0))
 				.outPlayer(club.getPlayers().get(1)).build());
 		
 		log.info("Saving match events");
