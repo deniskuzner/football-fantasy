@@ -14,11 +14,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Entity
@@ -39,6 +43,7 @@ public abstract class MatchEvent implements Serializable {
 	@Column(name = "match_id")
 	private Long matchId;
 	private String minute;
+	private String result;
 	@ManyToOne
 	@JoinColumn(name = "club_id")
 	private Club club;

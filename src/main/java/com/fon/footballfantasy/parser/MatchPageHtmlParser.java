@@ -68,7 +68,7 @@ public class MatchPageHtmlParser {
 				minutesPlayed = 0;
 			}
 			result.add(MinutesPlayed.builder().player(player)
-					.minutesPlayed(minutesPlayed).minute("").club(hostDTO).build());
+					.minutesPlayed(minutesPlayed).minute("").result("").club(hostDTO).build());
 		}
 		for (Element guestPlayer : guestPlayersRows) {
 			Player player = Player.builder().url(guestPlayer.select("th a").attr("href").replace("/en/players", "")).build();
@@ -79,7 +79,7 @@ public class MatchPageHtmlParser {
 				minutesPlayed = 0;
 			}
 			result.add(MinutesPlayed.builder().player(player)
-					.minutesPlayed(minutesPlayed).minute("").club(guestDTO).build());
+					.minutesPlayed(minutesPlayed).minute("").result("").club(guestDTO).build());
 		}
 
 		return result;
@@ -92,7 +92,8 @@ public class MatchPageHtmlParser {
 			MatchEvent matchEvent = null;
 			
 			String eventString = event.select("div").get(0).text();
-			String minute = eventString.substring(1,eventString.indexOf("’")+1);
+			String minute = eventString.trim().split(" ")[0].trim();
+			String matchResult = eventString.trim().split(" ")[1];
 			Club eventClub = null;
 			if(event.hasClass("a")) {
 				eventClub = hostDTO;
@@ -116,6 +117,7 @@ public class MatchPageHtmlParser {
 				continue;
 			
 			matchEvent.setMinute(minute);
+			matchEvent.setResult(matchResult);
 			matchEvent.setClub(eventClub);
 			LOGGER.info("Parsed match event: {}", eventString);
 			

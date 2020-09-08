@@ -84,6 +84,7 @@ databaseChangeLog:
                  modified_on timestamp not null default current_timestamp, 
                  match_id bigint not null,
                  minute varchar(10) not null,
+                 result varchar(10) not null,
                  club_id bigint not null);
 
               alter table match_events add constraint fk_event_match foreign key(match_id) references matches(id);

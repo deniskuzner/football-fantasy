@@ -28,7 +28,7 @@ public class AppStartupRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		//seasonClubParser.getSeasonClubs();
-		//matchParser.parse("/f79f653c/Partizan-Indjija-August-22-2020-Serbian-SuperLiga");
+		//matchParser.parse("/7d66ca4a/Napredak-Krusevac-Partizan-August-1-2020-Serbian-SuperLiga");
 		//fixturesParser.parse();
 		//clubParser.parse("/72804f2b/Radnicki-Nis-Stats");
 	}
