@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -39,5 +41,8 @@ public class Gameweek implements Serializable {
 	private int orderNumber;
 	@OneToMany(mappedBy = "gameweek", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Match> matches;
+	@JsonIgnoreProperties(value = "gameweek", allowSetters = true)
+	@OneToMany(mappedBy = "gameweek")
+	private List<PlayerGameweekPerformance> playerGameweekPerformances;
 	
 }

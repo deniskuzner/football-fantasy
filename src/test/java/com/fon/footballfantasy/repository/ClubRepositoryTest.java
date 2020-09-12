@@ -31,7 +31,8 @@ class ClubRepositoryTest extends BaseRepositoryTest {
 		
 		log.info("Getting setup");
 		
-		Club club = clubSetup.getSetup();
+		List<Club> clubs = clubSetup.getSetup();
+		Club club = clubs.get(0);
 		Player p1 = club.getPlayers().get(0);
 		Player p2 = club.getPlayers().get(1);
 		

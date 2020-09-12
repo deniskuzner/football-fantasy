@@ -1,8 +1,6 @@
 package com.fon.footballfantasy.domain;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,10 +21,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "players")
-public class Player implements Serializable {
-	
-	private static final long serialVersionUID = -7725311564610239522L;
+@Table(name = "player_gameweek_performances")
+public class PlayerGameweekPerformance {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,22 +32,22 @@ public class Player implements Serializable {
 	@Column(name = "modified_on")
 	private LocalDateTime modifiedOn;
 	
-	private String url;
-	private String name;
-	private String nationality;
-	@Column(name = "birth_date")
-	private String birthDate;
-	private String age;
-	private String position;
-	private String height;
-	private String weight;
-	private String image;
-	@JsonIgnoreProperties(value = "players", allowSetters = true)
+	@JsonIgnoreProperties(value = "playerGameweekPerformances", allowSetters = true)
 	@ManyToOne
-	@JoinColumn(name = "club_id")
-	private Club club;
-	@JsonIgnoreProperties(value = "player", allowSetters = true)
-	@OneToMany(mappedBy = "player")
-	private List<PlayerGameweekPerformance> playerGameweekPerformances;
+	@JoinColumn(name = "player_id")
+	private Player player;
+	@JsonIgnoreProperties(value = {"matches", "playerGameweekPerformances"}, allowSetters = true)
+	@ManyToOne
+	@JoinColumn(name = "gameweek_id")
+	private Gameweek gameweek;
+	private int points;
+	
+	public boolean isHost(Match match, Club club) {
+		return club.getId().equals(match.getHost().getId());
+	}
+
+	public boolean isGuest(Match match, Club club) {
+		return club.getId().equals(match.getGuest().getId());
+	}
 	
 }

@@ -126,3 +126,25 @@ databaseChangeLog:
 
               alter table substitutions add constraint fk_in_player foreign key(in_player_id) references players(id);
               alter table substitutions add constraint fk_out_player foreign key(out_player_id) references players(id);
+
+
+   - changeSet:
+      id: player-gameweek-performance
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Player gameweek performances
+           strip-comments: true
+           sql: |
+           
+              create table player_gameweek_performances(
+                 id bigint primary key auto_increment, 
+                 created_on timestamp not null default current_timestamp, 
+                 modified_on timestamp not null default current_timestamp, 
+                 player_id bigint not null,
+                 gameweek_id bigint not null,
+                 points int not null);
+
+              alter table player_gameweek_performances add constraint fk_performance_player foreign key(player_id) references players(id);
+              alter table player_gameweek_performances add constraint fk_performance_gameweeek foreign key(gameweek_id) references gameweeks(id);

@@ -108,5 +108,4 @@ class MatchEventRepositoryTest extends BaseRepositoryTest {
 		gameweekRepository.deleteAll();
 	}
 
-
 }

@@ -49,7 +49,7 @@ public class Match implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "guest_id")
 	private Club guest;
-	@JsonIgnoreProperties(value = "matches")
+	@JsonIgnoreProperties(value = "matches", allowSetters = true)
 	@ManyToOne
 	@JoinColumn(name = "gameweek_id")
 	private Gameweek gameweek;

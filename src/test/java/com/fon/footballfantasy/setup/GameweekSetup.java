@@ -2,6 +2,7 @@ package com.fon.footballfantasy.setup;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,8 +30,9 @@ public class GameweekSetup {
 	
 	public Gameweek getSetup() {
 		
-		Club host = clubSetup.getSetup();
-		Club guest = clubSetup.getSetup();
+		List<Club> clubs = clubSetup.getSetup();
+		Club host = clubs.get(0);
+		Club guest = clubs.get(1);
 
 		Gameweek gameweek = Gameweek.builder().orderNumber(1).build();
 		Match m1 = Match.builder().dateTime(LocalDateTime.parse("2020-07-12T20:00"))

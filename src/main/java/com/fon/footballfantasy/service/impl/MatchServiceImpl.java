@@ -14,6 +14,7 @@ import com.fon.footballfantasy.exception.MatchException.MatchExceptionCode;
 import com.fon.footballfantasy.repository.MatchRepository;
 import com.fon.footballfantasy.service.ClubService;
 import com.fon.footballfantasy.service.MatchService;
+import com.fon.footballfantasy.service.dto.MatchSearchRequest;
 
 @Service
 @Transactional
@@ -79,6 +80,11 @@ public class MatchServiceImpl implements MatchService {
 	
 	private Match findMatch(Match match) {
 		return matchRepository.findByHostAndGuestAndGameweek(match.getHost(), match.getGuest(), match.getGameweek());
+	}
+
+	@Override
+	public List<Match> searchMatches(MatchSearchRequest matchSearchRequest) {
+		return matchRepository.findByDateTimeBetween(matchSearchRequest.getFromDate(), matchSearchRequest.getToDate());
 	}
 
 }
