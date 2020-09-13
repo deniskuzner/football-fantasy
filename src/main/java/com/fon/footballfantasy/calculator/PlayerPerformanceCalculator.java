@@ -2,8 +2,10 @@ package com.fon.footballfantasy.calculator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Card;
@@ -14,26 +16,47 @@ import com.fon.footballfantasy.domain.MatchEvent;
 import com.fon.footballfantasy.domain.MinutesPlayed;
 import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.domain.PlayerGameweekPerformance;
+import com.fon.footballfantasy.domain.Substitution;
+import com.fon.footballfantasy.service.dto.MinutesPlayedDetails;
 
 @Component
 public class PlayerPerformanceCalculator {
 
+	@Autowired
+	BaseMatchEventPointsCalculator baseEventPointsCalculator;
+	
+	@Autowired
+	CleanSheetPointsCalculator cleanSheetPointsCalculator;
+	
+	@Autowired
+	GoalsConcededPointsCalculator goalsConcededPointsCalculator;
+
+	private Match match;
+	private List<MatchEvent> matchEvents;
+	private List<MinutesPlayed> minutesPlayed;
+	private List<Goal> goals;
+	private List<Card> cards;
+	private List<Substitution> substitutions;
+
 	public List<PlayerGameweekPerformance> getMatchPerformances(Match match) {
+		this.match = match;
+		this.matchEvents = match.getEvents();
+		this.minutesPlayed = matchEvents.stream().filter(event -> event instanceof MinutesPlayed)
+				.map(event -> (MinutesPlayed) event).collect(Collectors.toList());
+		this.goals = matchEvents.stream().filter(event -> event instanceof Goal).map(event -> (Goal) event)
+				.collect(Collectors.toList());
+		this.cards = matchEvents.stream().filter(event -> event instanceof Card).map(event -> (Card) event)
+				.collect(Collectors.toList());
+		this.substitutions = matchEvents.stream().filter(event -> event instanceof Substitution)
+				.map(event -> (Substitution) event).collect(Collectors.toList());
+
 		List<PlayerGameweekPerformance> performances = initializeMatchPerformances(match);
-		List<MatchEvent> matchEvents = match.getEvents();
-		for (MatchEvent matchEvent : matchEvents) {
-			updatePerformances(matchEvent, performances);
+
+		for (PlayerGameweekPerformance playerGameweekPerformance : performances) {
+			updatePlayerGameweekPerformance(playerGameweekPerformance);
 		}
 
-		// proci kroz listu i obraditi clean sheet situaciju
-		calculateCleanSheetPoints(match, performances);
-
-		//TODO obraditi skidanje poena igracima za primljen gol u zavisnosti od toga da li
-		// su bili u igri
-		
-		//TODO skinuti golmanu i odbrani za svaki drugi primljen gol
-
-		//TODO na kraju proci kroz listu i izracunati bonus
+		// TODO na kraju proci kroz listu i izracunati bonus
 
 		return performances;
 	}
@@ -54,129 +77,82 @@ public class PlayerPerformanceCalculator {
 		return initialPerformances;
 	}
 
-	// POKRIVA POENE ZA: DAT GOL, KARTON, ODIGRANE MINUTE
-	private void updatePerformances(MatchEvent matchEvent, List<PlayerGameweekPerformance> performances) {
+	// RACUNA POENE ZA: DAT GOL, AUTO GOL, KARTONE, ODIGRANE MINUTE, CLEAN SHEET, PRIMLJENE GOLOVE
+	private void updatePlayerGameweekPerformance(PlayerGameweekPerformance pgp) {
+		Player player = pgp.getPlayer();
+
+		Optional<MinutesPlayed> playerMinutesPlayed = minutesPlayed.stream()
+				.filter(mp -> mp.getPlayer().getId() == player.getId()).findFirst();
+		// Ako igrac nije igrao na mecu, preskociti ga
+		if (!playerMinutesPlayed.isPresent()) {
+			return;
+		}
+
+		// Getting concrete player events
+		List<Goal> playerGoals = goals.stream().filter(g -> g.getGoalPlayer().getId() == player.getId())
+				.collect(Collectors.toList());
+		List<Card> playerCards = cards.stream().filter(c -> c.getPlayer().getId() == player.getId())
+				.collect(Collectors.toList());
+		List<Substitution> playerSubstitutions = substitutions.stream()
+				.filter(s -> s.getInPlayer().getId() == player.getId() || s.getOutPlayer().getId() == player.getId())
+				.collect(Collectors.toList());
+
+		// Calculating base event points
 		int points = 0;
+		points += baseEventPointsCalculator.getMinutesPlayedPoints(playerMinutesPlayed.get());
+		for (Goal goal : playerGoals) {
+			points += baseEventPointsCalculator.getGoalPoints(goal);
+		}
+		for (Card card : playerCards) {
+			points += baseEventPointsCalculator.getCardPoints(card);
+		}
+		
+		MinutesPlayedDetails mpDetails = getMinutesPlayedDetails(pgp, playerSubstitutions);
 
-		// Goal
-		if (matchEvent instanceof Goal) {
-			Goal goal = (Goal) matchEvent;
-			points = getGoalPoints(goal);
-
-			PlayerGameweekPerformance pgp = performances.stream()
-					.filter(p -> p.getPlayer().getId() == goal.getGoalPlayer().getId()).findFirst().get();
-			pgp.setPoints(pgp.getPoints() + points);
+		// Calculate goalkeeper or defender clean sheet points
+		points += cleanSheetPointsCalculator.calculate(pgp, match, mpDetails, playerSubstitutions);
+		
+		// Calculate goals conceded by a goalkeeper or defender points
+		if(!match.getResult().equals("0-0")) {
+			points += goalsConcededPointsCalculator.calculate(pgp, match, mpDetails, playerSubstitutions);
 		}
 
-		// Card
-		if (matchEvent instanceof Card) {
-			Card card = (Card) matchEvent;
-			points = getCardPoints(card);
-
-			PlayerGameweekPerformance pgp = performances.stream()
-					.filter(p -> p.getPlayer().getId() == card.getPlayer().getId()).findFirst().get();
-			pgp.setPoints(pgp.getPoints() + points);
-		}
-
-		// Minutes played
-		if (matchEvent instanceof MinutesPlayed) {
-			MinutesPlayed minutesPlayed = (MinutesPlayed) matchEvent;
-			points = getMinutesPlayedPoints(minutesPlayed);
-
-			PlayerGameweekPerformance pgp = performances.stream()
-					.filter(p -> p.getPlayer().getId() == minutesPlayed.getPlayer().getId()).findFirst().get();
-			pgp.setPoints(pgp.getPoints() + points);
-		}
-
+		pgp.setPoints(points);
 	}
 	
-	// CLEAN SHEET POINTS
-	//TODO UZETI U OBZIR SAMO IGRACE KOJI SU IGRALI VISE OD 0 MINUTA!!!
-	private void calculateCleanSheetPoints(Match match, List<PlayerGameweekPerformance> performances) {
-		String result = match.getResult();
-		List<PlayerGameweekPerformance> cleanSheetTeamPerformances = new ArrayList<>();
+	private MinutesPlayedDetails getMinutesPlayedDetails(PlayerGameweekPerformance pgp, List<Substitution> playerSubstitutions) {
+		Player player = pgp.getPlayer();
+		int minuteIn = 0;
+		int minuteOut = 90;
+		Optional<Substitution> inSubstitution = Optional.empty();
+		Optional<Substitution> outSubstitution = Optional.empty();
+		// Ako nema izmene, igrao je od pocetka do kraja
+		if (!playerSubstitutions.isEmpty()) {
+			inSubstitution = playerSubstitutions.stream().filter(s -> s.getInPlayer().getId() == player.getId())
+					.findFirst();
+			outSubstitution = playerSubstitutions.stream().filter(s -> s.getOutPlayer().getId() == player.getId())
+					.findFirst();
 
-		// Host clean sheet
-		if (result.substring(0, result.indexOf("-")).equals("0")) {
-			cleanSheetTeamPerformances = performances.stream().filter(p -> p.isHost(match, p.getPlayer().getClub()))
-					.collect(Collectors.toList());
-		}
-
-		// Guest clean sheet
-		if (result.substring(result.indexOf("-") + 1).equals("0")) {
-			cleanSheetTeamPerformances = performances.stream().filter(p -> p.isGuest(match, p.getPlayer().getClub()))
-					.collect(Collectors.toList());
-		}
-
-		if (!cleanSheetTeamPerformances.isEmpty()) {
-			List<PlayerGameweekPerformance> gkAndDf = cleanSheetTeamPerformances.stream()
-					.filter(p -> p.getPlayer().getPosition().equals("GK") || p.getPlayer().getPosition().equals("DF"))
-					.collect(Collectors.toList());
-			List<PlayerGameweekPerformance> mf = cleanSheetTeamPerformances.stream()
-					.filter(p -> p.getPlayer().getPosition().equals("MF")).collect(Collectors.toList());
-
-			for (PlayerGameweekPerformance pgp : gkAndDf) {
-				pgp.setPoints(pgp.getPoints() + 4);
+			if (inSubstitution.isPresent()) {
+				minuteIn = parseMinute(inSubstitution.get().getMinute());
 			}
-			for (PlayerGameweekPerformance pgp : mf) {
-				pgp.setPoints(pgp.getPoints() + 1);
+			if (outSubstitution.isPresent()) {
+				minuteOut = parseMinute(outSubstitution.get().getMinute());
 			}
 		}
-
+		return MinutesPlayedDetails.builder().minuteIn(minuteIn).minuteOut(minuteOut).inSubstitution(inSubstitution)
+				.outSubstitution(outSubstitution).build();
 	}
 
-	int getGoalPoints(Goal goal) {
-		int points = 0;
-		Player goalPlayer = goal.getGoalPlayer();
-
-		if (goal.isOwnGoal()) {
-			points = -2;
-			return points;
+	private int parseMinute(String fullMinuteString) {
+		int result = 0;
+		String minute = fullMinuteString.replace("'", "");
+		if (minute.contains("+")) {
+			String[] minutes = minute.split("+");
+			result = Integer.parseInt(minutes[0]) + Integer.parseInt(minutes[1]);
+			return result;
 		}
-
-		// TODO: razmisliti kako da se rese duple pozicije igraca
-
-		switch (goalPlayer.getPosition()) {
-		case "GK":
-			points = 6;
-			break;
-		case "DF":
-			points = 6;
-			break;
-		case "MF":
-			points = 5;
-			break;
-		case "FW":
-			points = 4;
-			break;
-		}
-		return points;
-	}
-
-	int getCardPoints(Card card) {
-		int points = 0;
-		switch (card.getCard()) {
-		case "YELLOW":
-			points = -1;
-			break;
-		case "RED":
-			points = -3;
-			break;
-		}
-		return points;
-	}
-
-	int getMinutesPlayedPoints(MinutesPlayed minutesPlayed) {
-		int points = 0;
-		int minutes = minutesPlayed.getMinutesPlayed();
-		if (minutes >= 60) {
-			points = 2;
-		} else if (minutes > 0) {
-			points = 1;
-		} else {
-			points = 0;
-		}
-		return points;
+		return Integer.parseInt(minute);
 	}
 
 }

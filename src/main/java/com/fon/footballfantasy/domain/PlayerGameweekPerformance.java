@@ -42,12 +42,4 @@ public class PlayerGameweekPerformance {
 	private Gameweek gameweek;
 	private int points;
 	
-	public boolean isHost(Match match, Club club) {
-		return club.getId().equals(match.getHost().getId());
-	}
-
-	public boolean isGuest(Match match, Club club) {
-		return club.getId().equals(match.getGuest().getId());
-	}
-	
 }
