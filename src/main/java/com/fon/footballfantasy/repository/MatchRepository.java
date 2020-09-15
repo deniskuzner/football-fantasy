@@ -16,5 +16,7 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
 	Match findByHostAndGuestAndGameweek(Club host, Club guest, Gameweek gameweek);
 	
 	List<Match> findByDateTimeBetween(LocalDateTime fromDate, LocalDateTime toDate);
+	
+	List<Match> findByGameweekId(Long gameweekId);
 
 }

@@ -19,8 +19,6 @@ public class BaseMatchEventPointsCalculator {
 			return points;
 		}
 
-		// TODO: razmisliti kako da se rese duple pozicije igraca
-
 		switch (goalPlayer.getPosition()) {
 		case "GK":
 			points = 6;

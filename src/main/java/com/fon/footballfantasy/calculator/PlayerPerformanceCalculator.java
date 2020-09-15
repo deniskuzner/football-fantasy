@@ -1,7 +1,10 @@
 package com.fon.footballfantasy.calculator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,9 @@ public class PlayerPerformanceCalculator {
 	
 	@Autowired
 	GoalsConcededPointsCalculator goalsConcededPointsCalculator;
+	
+	@Autowired
+	BonusPointsCalculator bonusPointsCalculator;
 
 	private Match match;
 	private List<MatchEvent> matchEvents;
@@ -56,7 +62,7 @@ public class PlayerPerformanceCalculator {
 			updatePlayerGameweekPerformance(playerGameweekPerformance);
 		}
 
-		// TODO na kraju proci kroz listu i izracunati bonus
+		updateBonusPoints(performances);
 
 		return performances;
 	}
@@ -110,11 +116,11 @@ public class PlayerPerformanceCalculator {
 		MinutesPlayedDetails mpDetails = getMinutesPlayedDetails(pgp, playerSubstitutions);
 
 		// Calculate goalkeeper or defender clean sheet points
-		points += cleanSheetPointsCalculator.calculate(pgp, match, mpDetails, playerSubstitutions);
+		points += cleanSheetPointsCalculator.calculate(pgp.getPlayer(), match, mpDetails);
 		
 		// Calculate goals conceded by a goalkeeper or defender points
 		if(!match.getResult().equals("0-0")) {
-			points += goalsConcededPointsCalculator.calculate(pgp, match, mpDetails, playerSubstitutions);
+			points += goalsConcededPointsCalculator.calculate(pgp.getPlayer(), match, mpDetails);
 		}
 
 		pgp.setPoints(points);
@@ -153,6 +159,19 @@ public class PlayerPerformanceCalculator {
 			return result;
 		}
 		return Integer.parseInt(minute);
+	}
+	
+	private void updateBonusPoints(List<PlayerGameweekPerformance> performances) {
+		Map<PlayerGameweekPerformance, Integer> bonus = bonusPointsCalculator.calculate(performances);
+		Iterator it = bonus.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Entry pair = (Entry)it.next();
+	        PlayerGameweekPerformance pgp = (PlayerGameweekPerformance) pair.getKey();
+	        int bonusPoints = (int) pair.getValue();
+	        pgp.setPoints(pgp.getPoints() + bonusPoints);
+	        it.remove();
+	    }
+		
 	}
 
 }

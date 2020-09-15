@@ -2,6 +2,9 @@ package com.fon.footballfantasy.service.impl;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -85,6 +88,11 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public List<Match> searchMatches(MatchSearchRequest matchSearchRequest) {
 		return matchRepository.findByDateTimeBetween(matchSearchRequest.getFromDate(), matchSearchRequest.getToDate());
+	}
+
+	@Override
+	public List<Match> findByGameweekId(@NotNull @Min(1) Long gameweekId) {
+		return matchRepository.findByGameweekId(gameweekId);
 	}
 
 }

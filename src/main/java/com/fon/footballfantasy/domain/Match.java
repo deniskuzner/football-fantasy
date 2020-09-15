@@ -54,7 +54,7 @@ public class Match implements Serializable {
 	@JoinColumn(name = "gameweek_id")
 	private Gameweek gameweek;
 	@OneToMany(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "match_id")
+	@JoinColumn(name = "match_id", updatable = false)
 	private List<MatchEvent> events;
 	
 }

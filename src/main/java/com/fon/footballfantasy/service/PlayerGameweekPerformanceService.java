@@ -10,5 +10,7 @@ public interface PlayerGameweekPerformanceService {
 	List<PlayerGameweekPerformance> calculateByDate(MatchSearchRequest searchRequest);
 	
 	List<PlayerGameweekPerformance> calculateByGameweek(Long gameweekId);
+	
+	List<PlayerGameweekPerformance> saveAll(List<PlayerGameweekPerformance> playerGameweekPerformances);
 
 }

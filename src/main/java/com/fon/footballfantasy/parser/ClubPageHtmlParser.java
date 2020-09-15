@@ -47,7 +47,12 @@ public class ClubPageHtmlParser {
 			String url = row.select("th a").attr("href");
 			String name = row.select("th").text();
 			String nationality = row.select("td").get(0).text().substring(row.select("td").get(0).text().indexOf(" ") + 1);
-			String position = row.select("td").get(1).text();
+			String fullPosition = row.select("td").get(1).text();
+			if(fullPosition.isEmpty())
+				continue;
+			
+			String position = row.select("td").get(1).text().substring(0,2);
+
 			String age = row.select("td").get(2).text();
 			
 			if(url.isEmpty())

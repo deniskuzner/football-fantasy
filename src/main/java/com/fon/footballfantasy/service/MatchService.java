@@ -23,4 +23,6 @@ public interface MatchService {
 	
 	List<Match> searchMatches(@Valid MatchSearchRequest matchSearchRequest);
 	
+	List<Match> findByGameweekId(@NotNull @Min(1) Long gameweekId);
+	
 }
