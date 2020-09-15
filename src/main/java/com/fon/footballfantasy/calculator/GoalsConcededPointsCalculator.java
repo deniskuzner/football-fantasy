@@ -19,7 +19,7 @@ public class GoalsConcededPointsCalculator {
 		}
 		
 		boolean isHostPlayer = player.getClub().getId() == match.getHost().getId() ? true : false;
-		String[] results = match.getResult().split("-");
+		String[] results = match.getResult().split("–");
 		
 		//1. Igrao celu utakmicu
 		if(!mpDetails.getInSubstitution().isPresent() && !mpDetails.getOutSubstitution().isPresent()) {
@@ -36,7 +36,7 @@ public class GoalsConcededPointsCalculator {
 		//2. Igrao od pocetka pa izasao u nekom trenutku
 		if(!mpDetails.getInSubstitution().isPresent() && mpDetails.getOutSubstitution().isPresent()) {
 			Substitution outSubstitution = mpDetails.getOutSubstitution().get();
-			String[] substitutionMomentResults = outSubstitution.getResult().split("-");
+			String[] substitutionMomentResults = outSubstitution.getResult().split(":");
 			if(isHostPlayer) {
 				points = -(Integer.parseInt(substitutionMomentResults[1])/2);
 			} else {
@@ -48,7 +48,7 @@ public class GoalsConcededPointsCalculator {
 		//3. Usao sa klupe i igrao do kraja
 		if(mpDetails.getInSubstitution().isPresent() && !mpDetails.getOutSubstitution().isPresent()) {
 			Substitution inSubstitution = mpDetails.getInSubstitution().get();
-			String[] substitutionMomentResults = inSubstitution.getResult().split("-");
+			String[] substitutionMomentResults = inSubstitution.getResult().split(":");
 			if(isHostPlayer) {
 				int goalsCount = Integer.parseInt(results[1]) - Integer.parseInt(substitutionMomentResults[1]);
 				points = -(goalsCount/2);
@@ -63,8 +63,8 @@ public class GoalsConcededPointsCalculator {
 		if(mpDetails.getInSubstitution().isPresent() && mpDetails.getOutSubstitution().isPresent()) {
 			Substitution inSubstitution = mpDetails.getInSubstitution().get();
 			Substitution outSubstitution = mpDetails.getOutSubstitution().get();
-			String[] inSubstitutionMomentResults = inSubstitution.getResult().split("-");
-			String[] outSubstitutionMomentResults = outSubstitution.getResult().split("-");
+			String[] inSubstitutionMomentResults = inSubstitution.getResult().split(":");
+			String[] outSubstitutionMomentResults = outSubstitution.getResult().split(":");
 			if(isHostPlayer) {
 				int goalsCount = Integer.parseInt(outSubstitutionMomentResults[1]) - Integer.parseInt(inSubstitutionMomentResults[1]);
 				points = -(goalsCount/2);

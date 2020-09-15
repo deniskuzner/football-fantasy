@@ -38,7 +38,7 @@ class PlayerPerformanceCalculatorTest extends BaseCalculatorTest {
 		club1.setPlayers(Arrays.asList(p1,p2,p3));
 		Club club2 = Club.builder().id(2l)	.name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
 		club2.setPlayers(Arrays.asList(p4));
-		Match m1 = Match.builder().host(club1).guest(club2).result("2-0").build();
+		Match m1 = Match.builder().host(club1).guest(club2).result("2–0").build();
 		
 		Goal goal1 = Goal.builder().goalPlayer(p1).ownGoal(false).build();
 		Goal goal2 = Goal.builder().goalPlayer(p1).ownGoal(false).build();

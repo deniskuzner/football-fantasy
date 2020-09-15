@@ -14,7 +14,7 @@ public class CleanSheetPointsCalculator {
 		int points = 0;
 		
 		boolean isHostPlayer = player.getClub().getId() == match.getHost().getId() ? true : false;
-		String[] results = match.getResult().split("-");
+		String[] results = match.getResult().split("–");
 		if (!mpDetails.isCleanSheetCandidate()) {
 			return points;
 		}
@@ -27,7 +27,7 @@ public class CleanSheetPointsCalculator {
 		//2. Played from start and substituted later
 		if (!mpDetails.getInSubstitution().isPresent() && mpDetails.getOutSubstitution().isPresent()) {
 			Substitution outSubstitution = mpDetails.getOutSubstitution().get();
-			String[] substitutionMomentResults = outSubstitution.getResult().split("-");
+			String[] substitutionMomentResults = outSubstitution.getResult().split(":");
 			if ((isHostPlayer && substitutionMomentResults[1].equals("0"))
 					|| (!isHostPlayer && substitutionMomentResults[0].equals("0"))) {
 				points = getCleanSheetPoints(player);
@@ -38,7 +38,7 @@ public class CleanSheetPointsCalculator {
 		//3. Usao sa klupe i igrao do kraja
 		if (mpDetails.getInSubstitution().isPresent() && !mpDetails.getOutSubstitution().isPresent()) {
 			Substitution inSubstitution = mpDetails.getInSubstitution().get();
-			String[] substitutionMomentResults = inSubstitution.getResult().split("-");
+			String[] substitutionMomentResults = inSubstitution.getResult().split(":");
 			if ((isHostPlayer && substitutionMomentResults[1].equals(results[1]))
 					|| (!isHostPlayer && substitutionMomentResults[0].equals(results[0]))) {
 				points = getCleanSheetPoints(player);
@@ -50,8 +50,8 @@ public class CleanSheetPointsCalculator {
 		if(mpDetails.getInSubstitution().isPresent() && mpDetails.getOutSubstitution().isPresent()) {
 			Substitution inSubstitution = mpDetails.getInSubstitution().get();
 			Substitution outSubstitution = mpDetails.getOutSubstitution().get();
-			String[] inSubstitutionMomentResults = inSubstitution.getResult().split("-");
-			String[] outSubstitutionMomentResults = outSubstitution.getResult().split("-");
+			String[] inSubstitutionMomentResults = inSubstitution.getResult().split(":");
+			String[] outSubstitutionMomentResults = outSubstitution.getResult().split(":");
 			if((isHostPlayer && outSubstitutionMomentResults[1].equals(inSubstitutionMomentResults[1])) 
 					|| (!isHostPlayer && outSubstitutionMomentResults[0].equals(inSubstitutionMomentResults[0]))) {
 				points = getCleanSheetPoints(player);

@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +45,11 @@ public class PlayerPerformanceCalculator {
 	private List<Goal> goals;
 	private List<Card> cards;
 	private List<Substitution> substitutions;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerPerformanceCalculator.class);
 
 	public List<PlayerGameweekPerformance> getMatchPerformances(Match match) {
+		LOGGER.info("Calculating performances for match: {} - {}", match.getHost().getName(), match.getGuest().getName());
 		this.match = match;
 		this.matchEvents = match.getEvents();
 		this.minutesPlayed = matchEvents.stream().filter(event -> event instanceof MinutesPlayed)
@@ -119,7 +124,7 @@ public class PlayerPerformanceCalculator {
 		points += cleanSheetPointsCalculator.calculate(pgp.getPlayer(), match, mpDetails);
 		
 		// Calculate goals conceded by a goalkeeper or defender points
-		if(!match.getResult().equals("0-0")) {
+		if(!match.getResult().equals("0–0")) {
 			points += goalsConcededPointsCalculator.calculate(pgp.getPlayer(), match, mpDetails);
 		}
 
@@ -152,7 +157,7 @@ public class PlayerPerformanceCalculator {
 
 	private int parseMinute(String fullMinuteString) {
 		int result = 0;
-		String minute = fullMinuteString.replace("'", "");
+		String minute = fullMinuteString.replace("’", "").replaceAll("\u00A0", "");;
 		if (minute.contains("+")) {
 			String[] minutes = minute.split("+");
 			result = Integer.parseInt(minutes[0]) + Integer.parseInt(minutes[1]);

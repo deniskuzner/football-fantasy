@@ -26,11 +26,11 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").club(club1).build();
 		Club club2 = Club.builder().id(2l)	.name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
-		Match m1 = Match.builder().host(club1).guest(club2).result("2:0").build();
+		Match m1 = Match.builder().host(club1).guest(club2).result("2–0").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(30)
 				.inSubstitution(Optional.empty())
-				.outSubstitution(Optional.of(Substitution.builder().outPlayer(p1).result("0-0").build())).build();
+				.outSubstitution(Optional.of(Substitution.builder().outPlayer(p1).result("0:0").build())).build();
 		
 		log.info("Not clean sheet candidate test");
 		assertEquals(0, calculator.calculate(p1, m1, mpd));
@@ -41,7 +41,7 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
 		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
-		Match m1 = Match.builder().host(club1).guest(club2).result("0-2").build();
+		Match m1 = Match.builder().host(club1).guest(club2).result("0–2").build();
 
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(90)
 				.inSubstitution(Optional.empty())
@@ -68,11 +68,11 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
 		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
-		Match m1 = Match.builder().host(club1).guest(club2).result("1-2").build();
+		Match m1 = Match.builder().host(club1).guest(club2).result("1–2").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(70)
 				.inSubstitution(Optional.empty())
-				.outSubstitution(Optional.of(Substitution.builder().outPlayer(p1).result("0-1").build())).build();
+				.outSubstitution(Optional.of(Substitution.builder().outPlayer(p1).result("0:1").build())).build();
 		
 		log.info("Player's team conceded goal test");
 		assertEquals(0, calculator.calculate(p1, m1, mpd));
@@ -95,10 +95,10 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
 		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
-		Match m1 = Match.builder().host(club1).guest(club2).result("2-3").build();
+		Match m1 = Match.builder().host(club1).guest(club2).result("2–3").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(25).minuteOut(90)
-				.inSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("1-1").build()))
+				.inSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("1:1").build()))
 				.outSubstitution(Optional.empty()).build();
 		
 		log.info("Player's team conceded goal test");
@@ -108,7 +108,7 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		p1.setClub(club2);
 		assertEquals(0, calculator.calculate(p1, m1, mpd));
 		
-		m1.setResult("1-3");
+		m1.setResult("1–3");
 		assertEquals(1, calculator.calculate(p1, m1, mpd));
 		
 		log.info("GK player clean sheet test");
@@ -125,11 +125,11 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
 		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
-		Match m1 = Match.builder().host(club1).guest(club2).result("2-3").build();
+		Match m1 = Match.builder().host(club1).guest(club2).result("2–3").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(25).minuteOut(87)
-				.inSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("1-1").build()))
-				.outSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("2-2").build())).build();
+				.inSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("1:1").build()))
+				.outSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("2:2").build())).build();
 		
 		log.info("Player's team conceded goal test");
 		assertEquals(0, calculator.calculate(p1, m1, mpd));
@@ -138,7 +138,7 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 		p1.setClub(club2);
 		assertEquals(0, calculator.calculate(p1, m1, mpd));
 		
-		mpd.setOutSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("1-2").build()));
+		mpd.setOutSubstitution(Optional.of(Substitution.builder().inPlayer(p1).result("1:2").build()));
 		assertEquals(1, calculator.calculate(p1, m1, mpd));
 		
 		log.info("GK player clean sheet test");
