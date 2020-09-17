@@ -56,5 +56,6 @@ public class Match implements Serializable {
 	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "match_id", updatable = false)
 	private List<MatchEvent> events;
+	private boolean sent;
 	
 }

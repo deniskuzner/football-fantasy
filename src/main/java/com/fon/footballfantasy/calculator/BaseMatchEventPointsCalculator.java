@@ -1,5 +1,8 @@
 package com.fon.footballfantasy.calculator;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Card;
@@ -36,16 +39,20 @@ public class BaseMatchEventPointsCalculator {
 		return points;
 	}
 
-	int getCardPoints(Card card) {
+	int getCardPoints(List<Card> cards) {
 		int points = 0;
-		switch (card.getCard()) {
-		case "YELLOW":
-			points = -1;
-			break;
-		case "RED":
+		List<Card> redCards = cards.stream().filter(c -> c.getCard().equals("RED")).collect(Collectors.toList());
+		List<Card> yellowCards = cards.stream().filter(c -> c.getCard().equals("YELLOW")).collect(Collectors.toList());
+
+		// red card or two yellow cards
+		if(!redCards.isEmpty() || yellowCards.size() == 2) {
 			points = -3;
-			break;
 		}
+		// yellow card
+		if(yellowCards.size() == 1) {
+			points = -1;
+		}
+		
 		return points;
 	}
 

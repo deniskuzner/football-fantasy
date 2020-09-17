@@ -87,12 +87,17 @@ public class MatchServiceImpl implements MatchService {
 
 	@Override
 	public List<Match> searchMatches(MatchSearchRequest matchSearchRequest) {
-		return matchRepository.findByDateTimeBetween(matchSearchRequest.getFromDate(), matchSearchRequest.getToDate());
+		return matchRepository.findBySentAndDateTimeBetween(false, matchSearchRequest.getFromDate(), matchSearchRequest.getToDate());
 	}
 
 	@Override
 	public List<Match> findByGameweekId(@NotNull @Min(1) Long gameweekId) {
-		return matchRepository.findByGameweekId(gameweekId);
+		return matchRepository.findBySentAndGameweekId(false, gameweekId);
+	}
+
+	@Override
+	public int updateSent(@NotNull @Min(1) Long id) {
+		return matchRepository.updateSent(id);
 	}
 
 }

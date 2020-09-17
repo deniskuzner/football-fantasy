@@ -25,7 +25,7 @@ import com.fon.footballfantasy.domain.Substitution;
 import com.fon.footballfantasy.service.dto.MinutesPlayedDetails;
 
 @Component
-public class PlayerPerformanceCalculator {
+public class MatchPerformanceCalculator {
 
 	@Autowired
 	BaseMatchEventPointsCalculator baseEventPointsCalculator;
@@ -46,7 +46,7 @@ public class PlayerPerformanceCalculator {
 	private List<Card> cards;
 	private List<Substitution> substitutions;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerPerformanceCalculator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MatchPerformanceCalculator.class);
 
 	public List<PlayerGameweekPerformance> getMatchPerformances(Match match) {
 		LOGGER.info("Calculating performances for match: {} - {}", match.getHost().getName(), match.getGuest().getName());
@@ -91,9 +91,7 @@ public class PlayerPerformanceCalculator {
 	// RACUNA POENE ZA: DAT GOL, AUTO GOL, KARTONE, ODIGRANE MINUTE, CLEAN SHEET, PRIMLJENE GOLOVE
 	private void updatePlayerGameweekPerformance(PlayerGameweekPerformance pgp) {
 		Player player = pgp.getPlayer();
-
-		Optional<MinutesPlayed> playerMinutesPlayed = minutesPlayed.stream()
-				.filter(mp -> mp.getPlayer().getId() == player.getId()).findFirst();
+		Optional<MinutesPlayed> playerMinutesPlayed = minutesPlayed.stream().filter(mp -> mp.getPlayer().getId() == player.getId()).findFirst();
 		// Ako igrac nije igrao na mecu, preskociti ga
 		if (!playerMinutesPlayed.isPresent()) {
 			return;
@@ -114,9 +112,7 @@ public class PlayerPerformanceCalculator {
 		for (Goal goal : playerGoals) {
 			points += baseEventPointsCalculator.getGoalPoints(goal);
 		}
-		for (Card card : playerCards) {
-			points += baseEventPointsCalculator.getCardPoints(card);
-		}
+		points += baseEventPointsCalculator.getCardPoints(playerCards);
 		
 		MinutesPlayedDetails mpDetails = getMinutesPlayedDetails(pgp, playerSubstitutions);
 

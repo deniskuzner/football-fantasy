@@ -1,6 +1,9 @@
 package com.fon.footballfantasy.calculator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +48,23 @@ class BaseMatchEventPointsCalculatorTest extends BaseCalculatorTest {
 		log.info("Get card points");
 
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").build();
-		Card yellow = Card.builder().player(p1).card("YELLOW").build();
+		Card yellow1 = Card.builder().player(p1).card("YELLOW").build();
+		Card yellow2 = Card.builder().player(p1).card("YELLOW").build();
 		Card red = Card.builder().player(p1).card("RED").build();
+		List<Card> cards = new ArrayList<>();
 		
-		assertEquals(-1, calculator.getCardPoints(yellow));
-		assertEquals(-3, calculator.getCardPoints(red));
+		log.info("No cards");
+		assertEquals(0, calculator.getCardPoints(cards));
+		
+		log.info("Single yellow card");
+		cards.add(yellow1);
+		assertEquals(-1, calculator.getCardPoints(cards));
+		log.info("Two yellow cards");
+		cards.add(yellow2);
+		assertEquals(-3, calculator.getCardPoints(cards));
+		log.info("Yellow and then Red card");
+		cards.add(red);
+		assertEquals(-3, calculator.getCardPoints(cards));
 	}
 
 	@Test

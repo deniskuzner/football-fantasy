@@ -148,3 +148,15 @@ databaseChangeLog:
 
               alter table player_gameweek_performances add constraint fk_performance_player foreign key(player_id) references players(id);
               alter table player_gameweek_performances add constraint fk_performance_gameweeek foreign key(gameweek_id) references gameweeks(id);
+
+   - changeSet:
+      id: match-sent
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Adding sent field in match
+           strip-comments: true
+           sql: |
+           
+              alter table matches add sent boolean;

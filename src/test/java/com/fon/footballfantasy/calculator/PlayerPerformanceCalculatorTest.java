@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 class PlayerPerformanceCalculatorTest extends BaseCalculatorTest {
 
 	@Autowired
-	PlayerPerformanceCalculator calculator;
+	MatchPerformanceCalculator calculator;
 	
 	@Test
 	void testGetMatchPerformances() {

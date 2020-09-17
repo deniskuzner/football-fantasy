@@ -38,7 +38,7 @@ class MatchRepositoryTest extends BaseRepositoryTest {
 		List<Match> setupMatches = gameweek.getMatches();
 		Match m1 = setupMatches.get(0);
 
-		List<Match> matches = matchRepository.findByDateTimeBetween(m1.getDateTime().minusDays(1),
+		List<Match> matches = matchRepository.findBySentAndDateTimeBetween(false, m1.getDateTime().minusDays(1),
 				m1.getDateTime().plusDays(1));
 
 		assertNotNull(matches);
@@ -57,7 +57,7 @@ class MatchRepositoryTest extends BaseRepositoryTest {
 		List<Match> setupMatches = gameweek.getMatches();
 		Match m1 = setupMatches.get(0);
 
-		List<Match> matches = matchRepository.findByGameweekId(gameweek.getId());
+		List<Match> matches = matchRepository.findBySentAndGameweekId(false, gameweek.getId());
 
 		assertNotNull(matches);
 		assertEquals(2, matches.size());

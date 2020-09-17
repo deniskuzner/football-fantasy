@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.fon.footballfantasy.calculator.PlayerPerformanceCalculator;
+import com.fon.footballfantasy.calculator.MatchPerformanceCalculator;
 import com.fon.footballfantasy.domain.Match;
 import com.fon.footballfantasy.domain.PlayerGameweekPerformance;
 import com.fon.footballfantasy.repository.PlayerGameweekPerformanceRepository;
@@ -33,15 +33,17 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 	GameweekService gameweekService;
 	
 	@Autowired
-	PlayerPerformanceCalculator playerPerformanceCalculator;
+	MatchPerformanceCalculator playerPerformanceCalculator;
 
 	@Override
 	public List<PlayerGameweekPerformance> calculateByDate(MatchSearchRequest searchRequest) {
 		List<PlayerGameweekPerformance> performances = new ArrayList<>();
 		List<Match> matches = matchService.searchMatches(searchRequest);
 		for (Match match : matches) {
-			List<PlayerGameweekPerformance> matchPerformances = playerPerformanceCalculator.getMatchPerformances(match);
-			performances.addAll(saveAll(matchPerformances));
+			if(matchService.updateSent(match.getId()) == 1) {
+				List<PlayerGameweekPerformance> matchPerformances = playerPerformanceCalculator.getMatchPerformances(match);
+				performances.addAll(saveAll(matchPerformances));
+			}
 		}
 		return performances;
 	}
@@ -51,8 +53,10 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 		List<PlayerGameweekPerformance> performances = new ArrayList<>();
 		List<Match> matches = matchService.findByGameweekId(gameweekId);
 		for (Match match : matches) {
-			List<PlayerGameweekPerformance> matchPerformances = playerPerformanceCalculator.getMatchPerformances(match);
-			performances.addAll(saveAll(matchPerformances));
+			if(matchService.updateSent(match.getId()) == 1) {
+				List<PlayerGameweekPerformance> matchPerformances = playerPerformanceCalculator.getMatchPerformances(match);
+				performances.addAll(saveAll(matchPerformances));
+			}
 		}
 		return performances;
 	}
