@@ -1,6 +1,6 @@
 package com.fon.footballfantasy.service.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
@@ -14,9 +14,9 @@ import lombok.experimental.SuperBuilder;
 public class MatchSearchRequest {
 
 	@NotNull
-	LocalDateTime fromDate;
+	Date fromDate;
 
 	@NotNull
-	LocalDateTime toDate;
+	Date toDate;
 
 }

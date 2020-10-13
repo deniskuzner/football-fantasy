@@ -51,7 +51,6 @@ public class MatchEventServiceImpl implements MatchEventService {
 	@Autowired
 	PlayerService playerService;
 
-	//TODO VIDETI STA SE OVDE RADI, DELUJE DA FALI SLANJE STATS SERVISU
 	@Override
 	public List<MatchEvent> parseMatchEventsByGameweekId(Long gameweekId) {
 		List<MatchEvent> matchEvents = new ArrayList<>();
@@ -65,10 +64,14 @@ public class MatchEventServiceImpl implements MatchEventService {
 		return matchEvents;
 	} 
 	
-	// FALI SLANJE STATS SERVISU
 	@Override
 	public List<MatchEvent> parseMatchEventsByMatchUrl(String matchUrl) {
 		List<MatchEvent> result = new ArrayList<>();
+		
+		//if match hasn't played yet
+		if(matchUrl == null)
+			return new ArrayList<>();
+		
 		// Preventing duplicates
 		List<MatchEvent> existingMatchEvents = findByMatchId(matchService.findByUrl(matchUrl).getId());
 		if(existingMatchEvents.size() > 0)

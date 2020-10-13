@@ -30,13 +30,13 @@ class PlayerPerformanceCalculatorTest extends BaseCalculatorTest {
 	void testGetMatchPerformances() {
 		log.info("Calculating match performances");
 		
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
 		Player p2 = Player.builder().name("Umar Sadiq").position("FW").club(club1).build();
 		Player p3 = Player.builder().name("Vladimir Stojkovic").position("GK").club(club1).build();
 		Player p4 = Player.builder().name("Bojan Ostojic").position("DF").club(club1).build();
 		club1.setPlayers(Arrays.asList(p1,p2,p3));
-		Club club2 = Club.builder().id(2l)	.name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l)	.name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		club2.setPlayers(Arrays.asList(p4));
 		Match m1 = Match.builder().host(club1).guest(club2).result("2–0").build();
 		

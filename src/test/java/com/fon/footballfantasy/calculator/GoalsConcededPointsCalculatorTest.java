@@ -25,9 +25,9 @@ class GoalsConcededPointsCalculatorTest extends BaseCalculatorTest {
 	void testMFAndFWPlayers() {
 		log.info("Test MF and FW players");
 	
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("2–3").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(0)
@@ -40,9 +40,9 @@ class GoalsConcededPointsCalculatorTest extends BaseCalculatorTest {
 	void testPlayed90Minutes() {
 		log.info("Test played 90 minutes");
 	
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("DF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("0–0").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(90)
@@ -64,9 +64,9 @@ class GoalsConcededPointsCalculatorTest extends BaseCalculatorTest {
 	void testPlayedFromStartAndSubstitutedLater() {
 		log.info("Test played from start and substituted later");
 		
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("DF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("0–7").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(70)
@@ -89,9 +89,9 @@ class GoalsConcededPointsCalculatorTest extends BaseCalculatorTest {
 	void testEnteredFromBenchAndNotSubstituted() {
 		log.info("Test entered from bench and not substituted later");
 		
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("DF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("1–1").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(25).minuteOut(90)
@@ -118,9 +118,9 @@ class GoalsConcededPointsCalculatorTest extends BaseCalculatorTest {
 	void testEnteredFromBenchAndSubstitutedLater() {
 		log.info("Test entered from bench and substituted later");
 		
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("DF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("1–6").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(25).minuteOut(90)

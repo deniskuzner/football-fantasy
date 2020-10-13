@@ -1,5 +1,7 @@
 package com.fon.footballfantasy.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,10 @@ public class MatchEventController {
 
 	@GetMapping(value = "/parse-match-events/gameweek/{id}")
 	ResponseEntity<?> parseMatchEventsByGameweekId(@PathVariable("id") Long gameweekId) {
-		// TODO: IF NULL VRATITI GRESKU
-		return new ResponseEntity<>(matchEventService.parseMatchEventsByGameweekId(gameweekId), HttpStatus.OK);
+		List<MatchEvent> result = matchEventService.parseMatchEventsByGameweekId(gameweekId);
+		if (result != null)
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid gameweek id!");
 	}
 
 	@PostMapping(value = "/parse-match-events/match/{url}")

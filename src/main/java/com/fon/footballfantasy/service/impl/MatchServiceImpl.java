@@ -1,5 +1,7 @@
 package com.fon.footballfantasy.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.validation.constraints.Min;
@@ -87,7 +89,13 @@ public class MatchServiceImpl implements MatchService {
 
 	@Override
 	public List<Match> searchMatches(MatchSearchRequest matchSearchRequest) {
-		return matchRepository.findBySentAndDateTimeBetween(false, matchSearchRequest.getFromDate(), matchSearchRequest.getToDate());
+		LocalDateTime fromDate = matchSearchRequest.getFromDate().toInstant()
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDateTime();
+		LocalDateTime toDate = matchSearchRequest.getToDate().toInstant()
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDateTime();
+		return matchRepository.findBySentAndDateTimeBetween(false, fromDate, toDate);
 	}
 
 	@Override

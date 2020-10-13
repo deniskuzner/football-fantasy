@@ -23,9 +23,9 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 
 	@Test
 	void testNotCleanSheetCandidate() {
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").club(club1).build();
-		Club club2 = Club.builder().id(2l)	.name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l)	.name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("2–0").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(30)
@@ -38,9 +38,9 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 	
 	@Test
 	void testFinalResultCleanSheet() {
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("0–2").build();
 
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(90)
@@ -65,9 +65,9 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 	
 	@Test
 	void testPlayedFromStartAndSubstitutedLater() {
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("1–2").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(0).minuteOut(70)
@@ -92,9 +92,9 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 	
 	@Test
 	void testEnteredFromBenchAndNotSubstituted() {
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("2–3").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(25).minuteOut(90)
@@ -122,9 +122,9 @@ class CleanSheetPointsCalculatorTest extends BaseCalculatorTest {
 	
 	@Test
 	void testEnteredFromBenchAndSubstitutedLater() {
-		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic").build();
+		Club club1 = Club.builder().id(1l).name("Partizan").url("/dde3e804/Partizan").build();
 		Player p1 = Player.builder().name("Saša Zdjelar").position("MF").club(club1).build();
-		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović").build();
+		Club club2 = Club.builder().id(2l).name("Vozdovac").url("/5379325a/Vozdovac-Stats").build();
 		Match m1 = Match.builder().host(club1).guest(club2).result("2–3").build();
 		
 		MinutesPlayedDetails mpd = MinutesPlayedDetails.builder().minuteIn(25).minuteOut(87)

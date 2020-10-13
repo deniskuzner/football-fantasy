@@ -21,6 +21,7 @@ import com.fon.footballfantasy.domain.MatchEvent;
 import com.fon.footballfantasy.domain.MinutesPlayed;
 import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.domain.PlayerGameweekPerformance;
+import com.fon.footballfantasy.domain.PlayerStatistic;
 import com.fon.footballfantasy.domain.Substitution;
 import com.fon.footballfantasy.service.dto.MinutesPlayedDetails;
 
@@ -126,7 +127,7 @@ public class MatchPerformanceCalculator {
 
 		pgp.setPoints(points);
 	}
-	
+
 	private MinutesPlayedDetails getMinutesPlayedDetails(PlayerGameweekPerformance pgp, List<Substitution> playerSubstitutions) {
 		Player player = pgp.getPlayer();
 		int minuteIn = 0;

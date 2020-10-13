@@ -40,6 +40,8 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 		List<PlayerGameweekPerformance> performances = new ArrayList<>();
 		List<Match> matches = matchService.searchMatches(searchRequest);
 		for (Match match : matches) {
+			if(match.getEvents().size() == 0)
+				continue;
 			if(matchService.updateSent(match.getId()) == 1) {
 				List<PlayerGameweekPerformance> matchPerformances = playerPerformanceCalculator.getMatchPerformances(match);
 				performances.addAll(saveAll(matchPerformances));
@@ -53,6 +55,8 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 		List<PlayerGameweekPerformance> performances = new ArrayList<>();
 		List<Match> matches = matchService.findByGameweekId(gameweekId);
 		for (Match match : matches) {
+			if(match.getEvents().size() == 0)
+				continue;
 			if(matchService.updateSent(match.getId()) == 1) {
 				List<PlayerGameweekPerformance> matchPerformances = playerPerformanceCalculator.getMatchPerformances(match);
 				performances.addAll(saveAll(matchPerformances));

@@ -43,7 +43,6 @@ public class Club implements Serializable {
 	
 	private String url;
 	private String name;
-	private String manager;
 	private String image;
 	@JsonIgnoreProperties(value = "club", allowSetters = true)
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
