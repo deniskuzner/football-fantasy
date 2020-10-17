@@ -20,7 +20,7 @@ public class PlayerController {
 
 	@Autowired
 	private PlayerService playerService;
-	
+
 	@PostMapping(value = "/player")
 	ResponseEntity<?> save(@RequestBody Player player) {
 		return new ResponseEntity<>(playerService.save(player), HttpStatus.OK);
@@ -30,7 +30,7 @@ public class PlayerController {
 	ResponseEntity<?> findById(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(playerService.findById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/all")
 	ResponseEntity<?> findAll() {
 		return new ResponseEntity<>(playerService.findAll(), HttpStatus.OK);
@@ -41,5 +41,5 @@ public class PlayerController {
 		playerService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 }

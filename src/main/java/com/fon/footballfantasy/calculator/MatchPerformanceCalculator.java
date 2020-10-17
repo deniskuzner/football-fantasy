@@ -21,7 +21,6 @@ import com.fon.footballfantasy.domain.MatchEvent;
 import com.fon.footballfantasy.domain.MinutesPlayed;
 import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.domain.PlayerGameweekPerformance;
-import com.fon.footballfantasy.domain.PlayerStatistic;
 import com.fon.footballfantasy.domain.Substitution;
 import com.fon.footballfantasy.service.dto.MinutesPlayedDetails;
 
@@ -156,7 +155,7 @@ public class MatchPerformanceCalculator {
 		int result = 0;
 		String minute = fullMinuteString.replace("’", "").replaceAll("\u00A0", "");;
 		if (minute.contains("+")) {
-			String[] minutes = minute.split("+");
+			String[] minutes = minute.split("\\+");
 			result = Integer.parseInt(minutes[0]) + Integer.parseInt(minutes[1]);
 			return result;
 		}

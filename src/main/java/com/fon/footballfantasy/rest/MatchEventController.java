@@ -31,8 +31,8 @@ public class MatchEventController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid gameweek id!");
 	}
 
-	@PostMapping(value = "/parse-match-events/match/{url}")
-	ResponseEntity<?> parseMatchEventsByMatchUrl(@PathVariable("url") String matchUrl) {
+	@PostMapping(value = "/parse-match-events/match")
+	ResponseEntity<?> parseMatchEventsByMatchUrl(@RequestBody String matchUrl) {
 		return new ResponseEntity<>(matchEventService.parseMatchEventsByMatchUrl(matchUrl), HttpStatus.OK);
 	}
 
