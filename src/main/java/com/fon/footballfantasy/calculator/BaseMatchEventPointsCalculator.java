@@ -5,10 +5,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.fon.footballfantasy.domain.Card;
-import com.fon.footballfantasy.domain.Goal;
-import com.fon.footballfantasy.domain.MinutesPlayed;
 import com.fon.footballfantasy.domain.Player;
+import com.fon.footballfantasy.domain.event.Card;
+import com.fon.footballfantasy.domain.event.Goal;
+import com.fon.footballfantasy.domain.event.MinutesPlayed;
 
 @Component
 public class BaseMatchEventPointsCalculator {

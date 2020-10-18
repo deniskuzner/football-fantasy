@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fon.footballfantasy.domain.Club;
 import com.fon.footballfantasy.domain.Match;
 import com.fon.footballfantasy.domain.Player;
-import com.fon.footballfantasy.domain.Substitution;
+import com.fon.footballfantasy.domain.event.Substitution;
 import com.fon.footballfantasy.service.dto.MinutesPlayedDetails;
 
 import lombok.extern.slf4j.Slf4j;

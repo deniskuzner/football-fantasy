@@ -1,11 +1,12 @@
-package com.fon.footballfantasy.domain;
+package com.fon.footballfantasy.domain.event;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fon.footballfantasy.domain.Player;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,16 +20,15 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @SuperBuilder
 @Entity
-@Table(name = "goals")
+@Table(name = "cards")
 @PrimaryKeyJoinColumn(name = "id")
-public class Goal extends MatchEvent {
-	
-	private static final long serialVersionUID = -1104217305755624331L;
+public class Card extends MatchEvent {
+
+	private static final long serialVersionUID = 7192953543393167229L;
 	
 	@ManyToOne
-	@JoinColumn(name = "goal_player_id")
-	private Player goalPlayer;
-	@Column(name = "own_goal")
-	private boolean ownGoal;
+	@JoinColumn(name = "player_id")
+	private Player player;
+	private String card;
 
 }

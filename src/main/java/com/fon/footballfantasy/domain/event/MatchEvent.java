@@ -1,4 +1,4 @@
-package com.fon.footballfantasy.domain;
+package com.fon.footballfantasy.domain.event;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,6 +13,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fon.footballfantasy.domain.Club;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

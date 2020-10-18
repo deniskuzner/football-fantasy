@@ -159,3 +159,72 @@ databaseChangeLog:
            sql: |
            
               alter table matches add sent boolean;
+
+   - changeSet:
+      id: user-team
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Adding price and totalPoints fields in Player. Creating User, UserTeam, UserTeamPlayer and UserTeamGameweekPerformance.
+           strip-comments: true
+           sql: |
+           
+              alter table players
+              add price decimal(4,3) not null,
+              add total_points int not null;
+
+              create table users(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 username varchar(50) not null,
+                 password varchar(50) not null,
+                 first_name varchar(50) not null,
+                 last_name varchar(50) not null,
+                 email varchar(50) not null,
+                 gender varchar(20) not null,
+                 birth_date varchar(50) not null,
+                 phone_number varchar(50),
+                 country varchar(50) not null,
+                 favourite_club_id bigint not null);
+
+              alter table users add constraint fk_favourite_club foreign key(favourite_club_id) references clubs(id);
+
+              create table user_teams(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 total_points int not null,
+                 free_transfers int not null,
+                 name varchar(100) not null,
+                 captain_id bigint not null,
+                 vice_captain_id bigint not null,
+                 user_id bigint not null);
+
+              alter table user_teams add constraint fk_captain foreign key(captain_id) references players(id);
+              alter table user_teams add constraint fk_vice_captain foreign key(vice_captain_id) references players(id);
+              alter table user_teams add constraint fk_user foreign key(user_id) references users(id);
+
+              create table user_team_players(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 points int not null,
+                 on_bench boolean not null,
+                 player_id bigint not null,
+                 user_team_id bigint not null);
+
+              alter table user_team_players add constraint fk_player foreign key(player_id) references players(id);
+              alter table user_team_players add constraint fk_user_team foreign key(user_team_id) references user_teams(id);
+
+              create table user_team_gameweek_performances(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 points int not null,
+                 user_team_id bigint not null,
+                 gameweek_id bigint not null);
+
+              alter table user_team_gameweek_performances add constraint fk_utgp_user_team foreign key(user_team_id) references user_teams(id);
+              alter table user_team_gameweek_performances add constraint fk_utgp_gameweek foreign key(gameweek_id) references gameweeks(id);

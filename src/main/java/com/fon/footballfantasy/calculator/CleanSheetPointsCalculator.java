@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.fon.footballfantasy.domain.Match;
 import com.fon.footballfantasy.domain.Player;
-import com.fon.footballfantasy.domain.Substitution;
+import com.fon.footballfantasy.domain.event.Substitution;
 import com.fon.footballfantasy.service.dto.MinutesPlayedDetails;
 
 @Component

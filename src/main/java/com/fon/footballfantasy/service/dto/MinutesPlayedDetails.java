@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.fon.footballfantasy.domain.Club;
 import com.fon.footballfantasy.domain.Match;
-import com.fon.footballfantasy.domain.Substitution;
+import com.fon.footballfantasy.domain.event.Substitution;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

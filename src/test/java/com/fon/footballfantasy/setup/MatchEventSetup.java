@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fon.footballfantasy.domain.Card;
 import com.fon.footballfantasy.domain.Club;
 import com.fon.footballfantasy.domain.Gameweek;
-import com.fon.footballfantasy.domain.Goal;
 import com.fon.footballfantasy.domain.Match;
-import com.fon.footballfantasy.domain.MatchEvent;
-import com.fon.footballfantasy.domain.MinutesPlayed;
-import com.fon.footballfantasy.domain.Substitution;
+import com.fon.footballfantasy.domain.event.Card;
+import com.fon.footballfantasy.domain.event.Goal;
+import com.fon.footballfantasy.domain.event.MatchEvent;
+import com.fon.footballfantasy.domain.event.MinutesPlayed;
+import com.fon.footballfantasy.domain.event.Substitution;
 import com.fon.footballfantasy.repository.MatchEventRepository;
 
 import lombok.extern.slf4j.Slf4j;

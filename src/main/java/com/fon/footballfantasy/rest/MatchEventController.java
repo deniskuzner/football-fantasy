@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fon.footballfantasy.domain.MatchEvent;
+import com.fon.footballfantasy.domain.event.MatchEvent;
 import com.fon.footballfantasy.service.MatchEventService;
 
 @RestController

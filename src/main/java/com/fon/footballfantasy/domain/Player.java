@@ -47,6 +47,9 @@ public class Player implements Serializable {
 	private String height;
 	private String weight;
 	private String image;
+	private double price;
+	@Column(name = "total_points")
+	private int totalPoints;
 	@JsonIgnoreProperties(value = "players", allowSetters = true)
 	@ManyToOne
 	@JoinColumn(name = "club_id")
