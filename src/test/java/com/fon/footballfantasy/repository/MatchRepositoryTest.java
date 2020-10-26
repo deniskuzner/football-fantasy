@@ -50,7 +50,7 @@ class MatchRepositoryTest extends BaseRepositoryTest {
 	}
 
 	@Test
-	void testFindByGameweekId() {
+	void testFindBySentAndGameweekId() {
 		log.info("Find matches by gameweekId");
 
 		Gameweek gameweek = gameweekSetup.getSetup();
