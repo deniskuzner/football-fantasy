@@ -16,7 +16,7 @@ import com.fon.footballfantasy.exception.HtmlParserException;
 
 @Component
 public class ClubPageHtmlParser {
-
+	
 	private static final String URL = "https://fbref.com/en/squads";
 
 	public Club parse(String clubUrl) {
@@ -30,7 +30,9 @@ public class ClubPageHtmlParser {
 		String clubImage = document.select("img.teamlogo").attr("src");
 		String fullClubName = document.select("div#meta div h1 span").text();
 		String clubName = fullClubName.substring(fullClubName.indexOf(" "), fullClubName.lastIndexOf(" Stats")).trim();
-		Club result = Club.builder().url(clubUrl).name(clubName).image(clubImage).build();
+		String fullManagerName = document.select("div#meta div p").get(3).text();
+		String manager = fullManagerName.substring(fullManagerName.indexOf(": ") + 1).trim();
+		Club result = Club.builder().url(clubUrl).name(clubName).manager(manager).image(clubImage).build();
 
 		Elements rows = document.getElementsByTag("table").get(0).select("tbody tr");
 		List<Player> players = getPlayers(rows, result);

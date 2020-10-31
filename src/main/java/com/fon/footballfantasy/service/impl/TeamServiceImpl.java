@@ -2,6 +2,7 @@ package com.fon.footballfantasy.service.impl;
 
 import static com.fon.footballfantasy.exception.TeamException.TeamExceptionCode.TEAM_NOT_VALID;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,34 +44,32 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public List<Team> calculateGameweekPoints(Long gameweekId) {
+		// check if player points are calculated for that gameweek
+		if (pgpRepository.countByGameweekId(gameweekId) == 0) {
+			//TODO: BACITI CUSTOM EXCEPTION
+			return new ArrayList<>();
+		}
+		
 		List<Team> teams = (List<Team>) teamRepository.findAll();
 		for (Team team : teams) {
 			calculateTeamGameweekPoints(team, gameweekId);
 		}
-
+		
+		//TODO: UPDATE GAMEWEEKSTATUS NA CONFIRMED
+		
 		return teams;
 	}
 
 	@Override
 	public Team calculateTeamGameweekPoints(Team team, Long gameweekId) {
-
-		// check if player points are calculated for that gameweek
-		if (pgpRepository.countByGameweekId(gameweekId) == 0) {
-			return team;
-		}
-
-		// TODO: MOZDA NE VALJA OVA PROVERA AKO SE IGRA U VISE DANA
-		// AKO SE IZRACUNAJU POENI ZA PRVI DAN, NECE MOCI DA RACUNA I ZA DRUGI
-		// JER CE TGP ZA TAJ GW VEC POSTOJATI
 		// check if team points are calculated for that gameweek
 		TeamGameweekPerformance tgp = tgpRepository.findByTeamAndGameweekId(team, gameweekId);
 		if (tgp != null) {
-			return team;
+			tgpRepository.delete(tgp);
 		}
 
 		List<TeamPlayer> players = team.getTeamPlayers();
 		for (TeamPlayer tp : players) {
-
 			// TODO: MOZDA ZAMENITI SA
 			// pgpRepository.findByPlayerAndGameweekId(tp.getPlayer(), gameweekId);
 			PlayerGameweekPerformance pgp = tp.getPlayer().getPlayerGameweekPerformances().stream()
@@ -81,15 +80,14 @@ public class TeamServiceImpl implements TeamService {
 
 		setCaptainPoints(team);
 
-		int totalPoints = players.stream().filter(p -> !p.isOnBench()).mapToInt(p -> p.getPoints()).sum();
-		team.setTotalPoints(team.getTotalPoints() + totalPoints);
+		int totalGameweekPoints = players.stream().filter(p -> !p.isOnBench()).mapToInt(p -> p.getPoints()).sum();
+		int totalTeamPoints = tgpRepository.getTeamPoints(team.getId());
+		team.setTotalPoints(totalTeamPoints + totalGameweekPoints);
 
-		team.getTeamGameweekPerformances().add(TeamGameweekPerformance.builder().points(totalPoints).team(team)
+		team.getTeamGameweekPerformances().add(TeamGameweekPerformance.builder().points(totalGameweekPoints).team(team)
 				.gameweek(Gameweek.builder().id(gameweekId).build()).build());
 
-		save(team);
-
-		return team;
+		return save(team);
 	}
 
 	@Override
@@ -142,6 +140,8 @@ public class TeamServiceImpl implements TeamService {
 
 		if (!validateTeamClubsLimit(players))
 			throw new TeamException(TEAM_NOT_VALID, "You can select up to 3 players from a single club!");
+		
+		//TODO: AKO SE PRVI PUT PRAVI TIM, PROVERITI DA LI KOSTA ISPOD 100
 
 		return true;
 	}

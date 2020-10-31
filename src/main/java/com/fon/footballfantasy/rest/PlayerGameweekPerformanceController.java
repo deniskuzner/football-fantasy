@@ -29,5 +29,10 @@ public class PlayerGameweekPerformanceController {
 	ResponseEntity<?> calculateByGameweek(@PathVariable("id") Long gameweekId) {
 		return new ResponseEntity<>(performanceService.calculateByGameweek(gameweekId), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/player/{id}")
+	ResponseEntity<?> findByPlayerId(@PathVariable("id") Long playerId) {
+		return new ResponseEntity<>(performanceService.findByPlayerId(playerId), HttpStatus.OK);
+	}
 
 }

@@ -41,5 +41,10 @@ public class PlayerController {
 		playerService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/all/points-desc")
+	ResponseEntity<?> findAllOrderByPointsDesc() {
+		return new ResponseEntity<>(playerService.findAllOrderByPointsDesc(), HttpStatus.OK);
+	}
 
 }

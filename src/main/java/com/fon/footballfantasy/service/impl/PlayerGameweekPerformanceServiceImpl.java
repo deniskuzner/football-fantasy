@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.calculator.MatchPerformanceCalculator;
+import com.fon.footballfantasy.calculator.PlayerPriceCalculator;
 import com.fon.footballfantasy.domain.Match;
+import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.domain.PlayerGameweekPerformance;
 import com.fon.footballfantasy.repository.PlayerGameweekPerformanceRepository;
+import com.fon.footballfantasy.repository.PlayerRepository;
 import com.fon.footballfantasy.service.GameweekService;
 import com.fon.footballfantasy.service.MatchService;
 import com.fon.footballfantasy.service.PlayerGameweekPerformanceService;
@@ -34,7 +37,13 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 	
 	@Autowired
 	MatchPerformanceCalculator playerPerformanceCalculator;
-
+	
+	@Autowired
+	PlayerRepository playerRepository;
+	
+	@Autowired
+	PlayerPriceCalculator priceCalculator;
+	
 	@Override
 	public List<PlayerGameweekPerformance> calculateByDate(MatchSearchRequest searchRequest) {
 		List<PlayerGameweekPerformance> performances = new ArrayList<>();
@@ -67,8 +76,22 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 
 	@Override
 	public List<PlayerGameweekPerformance> saveAll(List<PlayerGameweekPerformance> playerGameweekPerformances) {
-		performanceRepository.saveAll(playerGameweekPerformances);
+		for (PlayerGameweekPerformance pgp : playerGameweekPerformances) {
+			Player player = pgp.getPlayer();
+			
+			// update player total points and price
+			int totalPoints = player.getTotalPoints() + pgp.getPoints();
+			double price = priceCalculator.getUpdatedPrice(pgp);
+			playerRepository.updateTotalPointsAndPrice(player.getId(), totalPoints, price);
+			
+			performanceRepository.save(pgp);
+		}
 		return playerGameweekPerformances;
+	}
+
+	@Override
+	public List<PlayerGameweekPerformance> findByPlayerId(Long playerId) {
+		return performanceRepository.findByPlayerId(playerId);
 	}
 
 }

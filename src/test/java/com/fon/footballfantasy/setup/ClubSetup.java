@@ -26,7 +26,7 @@ public class ClubSetup {
 
 		List<Club> clubs = new ArrayList<>();
 
-		Club club1 = Club.builder().name("Partizan").url("/dde3e804/Partizan")
+		Club club1 = Club.builder().name("Partizan").url("/dde3e804/Partizan").manager("Aleksandar Stanojevic")
 				.image("https://d2p3bygnnzw9w3.cloudfront.net/req/202003242/tlogo/fb/dde3e804.png").build();
 
 		Player p1 = Player.builder().name("Saša Zdjelar").url("/bbddc31f/Sasa-Zdjelar").nationality("SRB")
@@ -40,7 +40,7 @@ public class ClubSetup {
 
 		club1.setPlayers(Arrays.asList(p1, p2));
 
-		Club club2 = Club.builder().name("Vozdovac").url("/5379325a/Vozdovac-Stats")
+		Club club2 = Club.builder().name("Vozdovac").url("/5379325a/Vozdovac-Stats").manager("Jovan Damjanović")
 				.image("https://d2p3bygnnzw9w3.cloudfront.net/req/202009101/tlogo/fb/5379325a.png").build();
 
 		Player p3 = Player.builder().name("Marko Gajic").url("/c599efd8/Marko-Gajic").nationality("SRB")

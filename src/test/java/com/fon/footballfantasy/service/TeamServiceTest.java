@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,21 +27,22 @@ class TeamServiceTest extends BaseRepositoryTest {
 	@Autowired
 	TeamSetup teamSetup;
 	
+	Team team;
+	
+	@BeforeEach
+	void beforeEach() {
+		team = teamSetup.getFullValidSetup();
+	}
 
 	@Test
 	void testSave_ValidTeam() {
-
 		log.info("Test save valid team");
-		Team team = teamSetup.getFullValidSetup();
 		assertNotNull(teamService.save(team));
-
 	}
 
 	@Test
 	void testSave_InvalidTeamSize() {
-		
 		log.info("Test save team with invalid size");
-		Team team = teamSetup.getFullValidSetup();
 		List<TeamPlayer> players = team.getTeamPlayers();
 		players.remove(0);
 		
@@ -48,14 +50,11 @@ class TeamServiceTest extends BaseRepositoryTest {
 			teamService.save(team);
 		});
 		assertEquals("[TEAM_NOT_VALID] Invalid team size!", exception.getMessage());
-		
 	}
 	
 	@Test
 	void testSave_InvalidTeamDistinctPlayers() {
-		
 		log.info("Test save team with duplicate players");
-		Team team = teamSetup.getFullValidSetup();
 		List<TeamPlayer> players = team.getTeamPlayers();
 		players.remove(0);
 		players.add(players.get(0));
@@ -64,14 +63,11 @@ class TeamServiceTest extends BaseRepositoryTest {
 			teamService.save(team);
 		});
 		assertEquals("[TEAM_NOT_VALID] Team contains duplicate players!", exception.getMessage());
-		
 	}
 	
 	@Test
 	void testSave_InvalidTeamPositions() {
-		
 		log.info("Test save team with invalid positions");
-		Team team = teamSetup.getFullValidSetup();
 		List<TeamPlayer> players = team.getTeamPlayers();
 		TeamPlayer gk = players.stream().filter(tp -> tp.getPlayer().getPosition().equals("GK")).findFirst().get();
 		gk.getPlayer().setPosition("FW");
@@ -80,14 +76,11 @@ class TeamServiceTest extends BaseRepositoryTest {
 			teamService.save(team);
 		});
 		assertEquals("[TEAM_NOT_VALID] Invalid player positions!", exception.getMessage());
-		
 	}
 	
 	@Test
 	void testSave_InvalidTeamBenchSize() {
-		
 		log.info("Test save team with invalid bench size");
-		Team team = teamSetup.getFullValidSetup();
 		List<TeamPlayer> players = team.getTeamPlayers();
 		TeamPlayer gk = players.stream().filter(tp -> tp.isOnBench() == true).findFirst().get();
 		gk.setOnBench(false);
@@ -96,14 +89,11 @@ class TeamServiceTest extends BaseRepositoryTest {
 			teamService.save(team);
 		});
 		assertEquals("[TEAM_NOT_VALID] Invalid bench size!", exception.getMessage());
-		
 	}
 	
 	@Test
 	void testSave_InvalidTeamClubsLimit() {
-		
 		log.info("Test save team with invalid clubs limit");
-		Team team = teamSetup.getFullValidSetup();
 		List<TeamPlayer> players = team.getTeamPlayers();
 		players.get(0).getPlayer().setClub(players.get(10).getPlayer().getClub());
 		
@@ -111,7 +101,6 @@ class TeamServiceTest extends BaseRepositoryTest {
 			teamService.save(team);
 		});
 		assertEquals("[TEAM_NOT_VALID] You can select up to 3 players from a single club!", exception.getMessage());
-		
 	}
 	
 }

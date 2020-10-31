@@ -17,6 +17,8 @@ public interface PlayerService {
 
 	List<Player> findAll();
 
+	List<Player> findAllOrderByPointsDesc();
+
 	void deleteById(@NotNull @Min(1) Long id);
 
 }

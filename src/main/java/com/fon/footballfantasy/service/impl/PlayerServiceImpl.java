@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import com.fon.footballfantasy.calculator.PlayerPriceCalculator;
 import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.repository.PlayerRepository;
 import com.fon.footballfantasy.service.PlayerService;
@@ -18,6 +19,9 @@ public class PlayerServiceImpl implements PlayerService {
 	
 	@Autowired
 	PlayerRepository playerRepository;
+	
+	@Autowired
+	PlayerPriceCalculator priceCalculator;
 
 	@Override
 	public Player save(Player player) {
@@ -25,6 +29,10 @@ public class PlayerServiceImpl implements PlayerService {
 		if(p != null) {
 			player.setId(p.getId());
 			player.setCreatedOn(p.getCreatedOn());
+			player.setPrice(p.getPrice());
+			player.setTotalPoints(p.getTotalPoints());
+		} else {
+			player.setPrice(priceCalculator.getBasePrice(player));
 		}
 		return playerRepository.save(player);
 	}
@@ -47,6 +55,11 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void deleteById(Long id) {
 		playerRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Player> findAllOrderByPointsDesc() {
+		return playerRepository.findByOrderByTotalPointsDesc();
 	}
 
 }

@@ -13,4 +13,6 @@ public interface PlayerGameweekPerformanceService {
 	
 	List<PlayerGameweekPerformance> saveAll(List<PlayerGameweekPerformance> playerGameweekPerformances);
 
+	List<PlayerGameweekPerformance> findByPlayerId(Long playerId);
+
 }
