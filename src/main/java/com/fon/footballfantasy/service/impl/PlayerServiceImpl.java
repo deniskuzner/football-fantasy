@@ -62,4 +62,9 @@ public class PlayerServiceImpl implements PlayerService {
 		return playerRepository.findByOrderByTotalPointsDesc();
 	}
 
+	@Override
+	public List<Player> findByClubId(Long clubId) {
+		return playerRepository.findByClubId(clubId);
+	}
+
 }

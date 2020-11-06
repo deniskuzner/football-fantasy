@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.domain.Gameweek;
+import com.fon.footballfantasy.exception.GameweekException;
+import com.fon.footballfantasy.exception.GameweekException.GameweekExceptionCode;
 import com.fon.footballfantasy.parser.FixturesPageHtmlParser;
 import com.fon.footballfantasy.repository.GameweekRepository;
 import com.fon.footballfantasy.service.GameweekService;
@@ -65,6 +67,29 @@ public class GameweekServiceImpl implements GameweekService {
 	@Override
 	public void deleteById(Long id) {
 		gameweekRepository.deleteById(id);
+	}
+
+	@Override
+	public long count() {
+		return gameweekRepository.count();
+	}
+
+	@Override
+	public Gameweek findCurrentGameweek() {
+		Long id = gameweekRepository.findCurrentGameweekId();
+		if(id == null) {
+			return null;
+		}
+		return gameweekRepository.findById(id).get();
+	}
+
+	@Override
+	public int findCurrentGameweekOrderNumber() {
+		Long id = gameweekRepository.findCurrentGameweekId();
+		if(id == null) {
+			return 1;
+		}
+		return gameweekRepository.findOrderNumberById(id);
 	}
 
 }

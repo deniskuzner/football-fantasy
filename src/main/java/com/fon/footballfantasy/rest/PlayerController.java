@@ -46,5 +46,10 @@ public class PlayerController {
 	ResponseEntity<?> findAllOrderByPointsDesc() {
 		return new ResponseEntity<>(playerService.findAllOrderByPointsDesc(), HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/club/{id}")
+	ResponseEntity<?> findByClubId(@PathVariable("id") Long clubId) {
+		return new ResponseEntity<>(playerService.findByClubId(clubId), HttpStatus.OK);
+	}
 
 }

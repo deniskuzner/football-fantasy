@@ -1,5 +1,6 @@
 package com.fon.footballfantasy.domain.team;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -24,7 +25,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Entity
 @Table(name = "team_gameweek_performances")
-public class TeamGameweekPerformance {
+public class TeamGameweekPerformance implements Serializable {
+
+	private static final long serialVersionUID = -585978088848764917L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

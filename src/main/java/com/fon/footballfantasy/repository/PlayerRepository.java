@@ -21,4 +21,6 @@ public interface PlayerRepository extends CrudRepository<Player, Long> {
 	
 	List<Player> findByOrderByTotalPointsDesc();
 
+	List<Player> findByClubId(Long clubId);
+
 }

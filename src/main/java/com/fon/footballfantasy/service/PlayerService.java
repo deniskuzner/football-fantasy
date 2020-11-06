@@ -21,4 +21,6 @@ public interface PlayerService {
 
 	void deleteById(@NotNull @Min(1) Long id);
 
+	List<Player> findByClubId(@NotNull @Min(1) Long clubId);
+
 }

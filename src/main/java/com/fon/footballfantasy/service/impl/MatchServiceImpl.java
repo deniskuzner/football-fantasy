@@ -108,4 +108,9 @@ public class MatchServiceImpl implements MatchService {
 		return matchRepository.updateSent(id);
 	}
 
+	@Override
+	public List<Match> findByGameweekOrderNumber(int gameweekOrderNumber) {
+		return matchRepository.findByGameweekOrderNumber(gameweekOrderNumber);
+	}
+
 }

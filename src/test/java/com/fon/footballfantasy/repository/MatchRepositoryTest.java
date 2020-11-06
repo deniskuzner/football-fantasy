@@ -66,7 +66,17 @@ class MatchRepositoryTest extends BaseRepositoryTest {
 		assertEquals(m1.getHost().getId(), matches.get(0).getHost().getId());
 		assertEquals(m1.getGuest().getId(), matches.get(0).getGuest().getId());
 	}
-
+	
+	@Test
+	void testFindByGameweekOrderNumber() {
+		Gameweek gameweek = gameweekSetup.getSetup();
+		List<Match> setupMatches = gameweek.getMatches();
+		
+		List<Match> matches = matchRepository.findByGameweekOrderNumber(gameweek.getOrderNumber());
+		assertNotNull(matches);
+		assertEquals(setupMatches.size(), matches.size());
+	}
+	
 	@AfterEach
 	void deleteAll() {
 		log.info("Deleting everything");
@@ -74,5 +84,5 @@ class MatchRepositoryTest extends BaseRepositoryTest {
 		clubRepository.deleteAll();
 		assertEquals(0, ((List<Match>) matchRepository.findAll()).size());
 	}
-
+	
 }

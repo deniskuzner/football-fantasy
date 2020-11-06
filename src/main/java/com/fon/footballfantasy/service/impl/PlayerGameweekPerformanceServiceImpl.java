@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.calculator.MatchPerformanceCalculator;
 import com.fon.footballfantasy.calculator.PlayerPriceCalculator;
+import com.fon.footballfantasy.domain.Gameweek;
 import com.fon.footballfantasy.domain.Match;
 import com.fon.footballfantasy.domain.Player;
 import com.fon.footballfantasy.domain.PlayerGameweekPerformance;
@@ -36,10 +37,10 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 	GameweekService gameweekService;
 	
 	@Autowired
-	MatchPerformanceCalculator playerPerformanceCalculator;
+	PlayerRepository playerRepository;
 	
 	@Autowired
-	PlayerRepository playerRepository;
+	MatchPerformanceCalculator playerPerformanceCalculator;
 	
 	@Autowired
 	PlayerPriceCalculator priceCalculator;
@@ -60,9 +61,10 @@ public class PlayerGameweekPerformanceServiceImpl implements PlayerGameweekPerfo
 	}
 
 	@Override
-	public List<PlayerGameweekPerformance> calculateByGameweek(Long gameweekId) {
+	public List<PlayerGameweekPerformance> calculateByGameweek(int gameweekOrderNumber) {
 		List<PlayerGameweekPerformance> performances = new ArrayList<>();
-		List<Match> matches = matchService.findByGameweekId(gameweekId);
+		Gameweek gameweek = gameweekService.findByOrderNumber(gameweekOrderNumber);
+		List<Match> matches = matchService.findByGameweekId(gameweek.getId());
 		for (Match match : matches) {
 			if(match.getEvents().size() == 0)
 				continue;

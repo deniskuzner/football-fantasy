@@ -46,4 +46,11 @@ class GameweekRepositoryTest extends BaseRepositoryTest {
 		
 	}
 	
+	@Test
+	void testFindCurrentGameweekId() {
+		Gameweek gameweek = gameweekSetup.getSetup();
+		Long gameweekId = gameweekRepository.findCurrentGameweekId();
+		assertEquals(gameweek.getId(), gameweekId);
+	}
+	
 }

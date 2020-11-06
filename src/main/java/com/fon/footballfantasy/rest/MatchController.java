@@ -47,4 +47,9 @@ public class MatchController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/gameweek/order-number/{orderNumber}")
+	ResponseEntity<?> findByGameweekOrderNumber(@PathVariable("orderNumber") int gameweekOrderNumber) {
+		return new ResponseEntity<>(matchService.findByGameweekOrderNumber(gameweekOrderNumber), HttpStatus.OK);
+	}
+	
 }

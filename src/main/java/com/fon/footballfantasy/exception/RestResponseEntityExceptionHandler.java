@@ -18,21 +18,21 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@ExceptionHandler({ ConstraintViolationException.class })
 	public ResponseEntity<Object> handleConstraintViolationException(Exception ex) {
 		LOGGER.error(ex.getMessage());
-		LOGGER.error(ex.getStackTrace().toString());
+		ex.printStackTrace();
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
 	}
 	
 	@ExceptionHandler({ DataIntegrityViolationException.class })
 	public ResponseEntity<Object> handleDataIntegrityViolationException(Exception ex) {
 		LOGGER.error(ex.getMessage());
-		LOGGER.error(ex.getStackTrace().toString());
+		ex.printStackTrace();
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
 	}
 	
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleException(Exception ex) {
 		LOGGER.error(ex.getMessage());
-		LOGGER.error(ex.getStackTrace().toString());
+		ex.printStackTrace();
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	

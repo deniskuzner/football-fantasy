@@ -51,5 +51,20 @@ public class GameweekController {
 		gameweekService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/count")
+	ResponseEntity<?> count() {
+		return new ResponseEntity<>(gameweekService.count(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/current")
+	ResponseEntity<?> findCurrentGameweek() {
+		return new ResponseEntity<>(gameweekService.findCurrentGameweek(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/current/order-number")
+	ResponseEntity<?> findCurrentGameweekOrderNumber() {
+		return new ResponseEntity<>(gameweekService.findCurrentGameweekOrderNumber(), HttpStatus.OK);
+	}
 
 }

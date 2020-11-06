@@ -25,5 +25,7 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
 	@Modifying()
 	@Query(value = "update matches set sent = true where id = :id", nativeQuery = true)
 	int updateSent(@Param("id") Long id);
-
+	
+	List<Match> findByGameweekOrderNumber(int gameweekOrderNumber);
+	
 }

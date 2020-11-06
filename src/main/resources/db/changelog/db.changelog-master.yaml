@@ -171,7 +171,7 @@ databaseChangeLog:
            sql: |
            
               alter table players
-              add price decimal(2,1) not null,
+              add price decimal(3,1) not null,
               add total_points int not null;
 
               create table users(

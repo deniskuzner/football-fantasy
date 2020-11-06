@@ -27,4 +27,6 @@ public interface MatchService {
 	
 	int updateSent(@NotNull @Min(1) Long id);
 	
+	List<Match> findByGameweekOrderNumber(@NotNull @Min(1) int gameweekOrderNumber);
+	
 }

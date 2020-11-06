@@ -21,4 +21,10 @@ public interface GameweekService {
 
 	void deleteById(@NotNull @Min(1) Long id);
 
+	long count();
+	
+	Gameweek findCurrentGameweek();
+	
+	int findCurrentGameweekOrderNumber();
+
 }

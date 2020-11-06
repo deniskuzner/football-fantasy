@@ -54,6 +54,9 @@ public class ClubPageHtmlParser {
 			String position = row.select("td").get(1).text().substring(0,2);
 
 			String age = row.select("td").get(2).text();
+			if(!age.isEmpty()) {
+				age = age.substring(0,2);
+			}
 			
 			if(url.isEmpty())
 				continue;
