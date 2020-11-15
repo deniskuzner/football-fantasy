@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.domain.Gameweek;
-import com.fon.footballfantasy.exception.GameweekException;
-import com.fon.footballfantasy.exception.GameweekException.GameweekExceptionCode;
 import com.fon.footballfantasy.parser.FixturesPageHtmlParser;
 import com.fon.footballfantasy.repository.GameweekRepository;
 import com.fon.footballfantasy.service.GameweekService;

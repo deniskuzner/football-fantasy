@@ -57,5 +57,10 @@ public class ClubController {
 		clubService.deleteAll();
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping(value ="/all/names")
+	ResponseEntity<?> findAllNames() {
+		return new ResponseEntity<>(clubService.findAllNames(), HttpStatus.OK);
+	}
 
 }

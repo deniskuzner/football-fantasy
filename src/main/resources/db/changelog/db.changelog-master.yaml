@@ -240,3 +240,15 @@ databaseChangeLog:
            sql: |
            
               alter table clubs add manager varchar(40) not null;
+
+   - changeSet:
+      id: user-country
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Removing country field from users table
+           strip-comments: true
+           sql: |
+           
+              alter table users drop column country;

@@ -48,7 +48,7 @@ public class TeamSetup {
 
 		User user = User.builder().username("pera").password("pera").firstName("Pera").lastName("Peric")
 				.email("pera@gmail.com").gender("MALE").birthDate("20-20-2020").phoneNumber("06123456789")
-				.country("Serbia").favouriteClub(club).build();
+				.favouriteClubId(club.getId()).build();
 		userRepository.save(user);
 
 		log.info("Saving user team with players");
@@ -79,7 +79,7 @@ public class TeamSetup {
 
 		User user = User.builder().username("pera").password("pera").firstName("Pera").lastName("Peric")
 				.email("pera@gmail.com").gender("MALE").birthDate("20-20-2020").phoneNumber("06123456789")
-				.country("Serbia").favouriteClub(favourite).build();
+				.favouriteClubId(favourite.getId()).build();
 		userRepository.save(user);
 
 		Team team = Team.builder().totalPoints(15).freeTransfers(2).name("teleoptik").userId(user.getId())

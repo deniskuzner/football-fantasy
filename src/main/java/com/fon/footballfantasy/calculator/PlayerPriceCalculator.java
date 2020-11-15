@@ -40,8 +40,8 @@ public class PlayerPriceCalculator {
 			price = 3.5;
 		}
 		// max price
-		if(price > 17) {
-			price = 17;
+		if(price > 15) {
+			price = 15;
 		}
 		
 		return price;

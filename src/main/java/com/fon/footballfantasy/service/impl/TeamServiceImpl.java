@@ -93,6 +93,9 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public Team save(Team team) {
 		validateTeam(team);
+		for (TeamPlayer tp : team.getTeamPlayers()) {
+			tp.setTeam(team);
+		}
 		return teamRepository.save(team);
 	}
 

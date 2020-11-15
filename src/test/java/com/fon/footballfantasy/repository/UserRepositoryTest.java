@@ -32,7 +32,7 @@ class UserRepositoryTest extends BaseRepositoryTest {
 		List<Club> clubs = clubSetup.getSetup();
 		User user = User.builder().username("pera").password("pera").firstName("Pera").lastName("Peric")
 				.email("pera@gmail.com").gender("MALE").birthDate("20-20-2020").phoneNumber("06123456789")
-				.country("Serbia").favouriteClub(clubs.get(0)).build();
+				.favouriteClubId(clubs.get(0).getId()).build();
 
 		log.info("Save user");
 		userRepository.save(user);
@@ -45,7 +45,7 @@ class UserRepositoryTest extends BaseRepositoryTest {
 		assertEquals(user.getPassword(), u.getPassword());
 		assertEquals(user.getFirstName(), u.getFirstName());
 		assertEquals(user.getLastName(), u.getLastName());
-		assertEquals(user.getFavouriteClub().getId(), clubs.get(0).getId());
+		assertEquals(user.getFavouriteClubId(), clubs.get(0).getId());
 
 	}
 	
@@ -55,7 +55,7 @@ class UserRepositoryTest extends BaseRepositoryTest {
 		List<Club> clubs = clubSetup.getSetup();
 		User user = User.builder().username("pera").password("pera").firstName("Pera").lastName("Peric")
 				.email("pera@gmail.com").gender("MALE").birthDate("20-20-2020").phoneNumber("06123456789")
-				.country("Serbia").favouriteClub(clubs.get(0)).build();
+				.favouriteClubId(clubs.get(0).getId()).build();
 
 		log.info("Save user");
 		userRepository.save(user);
@@ -68,7 +68,7 @@ class UserRepositoryTest extends BaseRepositoryTest {
 		assertEquals(user.getPassword(), u.getPassword());
 		assertEquals(user.getFirstName(), u.getFirstName());
 		assertEquals(user.getLastName(), u.getLastName());
-		assertEquals(user.getFavouriteClub().getId(), clubs.get(0).getId());
+		assertEquals(user.getFavouriteClubId(), clubs.get(0).getId());
 		
 		log.info("Find user with wrong username and password");
 		u = userRepository.findByUsernameAndPassword("greska", "greska");

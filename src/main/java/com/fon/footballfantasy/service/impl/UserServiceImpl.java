@@ -1,5 +1,7 @@
 package com.fon.footballfantasy.service.impl;
 
+import static com.fon.footballfantasy.exception.UserException.UserExceptionCode.*;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.domain.User;
+import com.fon.footballfantasy.exception.UserException;
 import com.fon.footballfantasy.repository.UserRepository;
 import com.fon.footballfantasy.service.UserService;
+import com.fon.footballfantasy.service.dto.LoginCredentials;
 
 @Service
 @Transactional
@@ -21,17 +25,27 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 
 	@Override
-	public User login(User user) {
-		User u = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+	public User login(LoginCredentials credentials) {
+		User u = userRepository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
 		if(u == null) {
 			//TODO: UMESTO NULL BACITI CUSTOM LOGIN EXCEPTION
 			return null;
 		}
 		return u;
 	}
+	
+	@Override
+	public User register(User user) {
+		User u = userRepository.findByUsername(user.getUsername());
+		if(u != null) {
+			throw new UserException(USERNAME_ALREADY_EXISTS, "Username %s is already taken!", user.getUsername());
+		}
+		return userRepository.save(user);
+	}
 
 	@Override
 	public User save(User user) {
+		
 		return userRepository.save(user);
 	}
 

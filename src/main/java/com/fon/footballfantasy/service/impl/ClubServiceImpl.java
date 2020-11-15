@@ -93,4 +93,9 @@ public class ClubServiceImpl implements ClubService {
 		clubRepository.deleteAll();
 	}
 
+	@Override
+	public List<String> findAllNames() {
+		return clubRepository.findAllNames();
+	}
+
 }

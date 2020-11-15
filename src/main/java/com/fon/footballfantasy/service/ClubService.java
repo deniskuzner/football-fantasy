@@ -26,4 +26,6 @@ public interface ClubService {
 	
 	void deleteAll();
 
+	List<String> findAllNames();
+
 }

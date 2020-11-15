@@ -6,10 +6,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fon.footballfantasy.domain.User;
+import com.fon.footballfantasy.service.dto.LoginCredentials;
 
 public interface UserService {
 	
-	User login(User user);
+	User login(@NotNull LoginCredentials credentials);
+	
+	User register(@NotNull User user);
 	
 	User save(@NotNull User user);
 
