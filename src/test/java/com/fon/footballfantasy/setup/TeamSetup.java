@@ -53,7 +53,7 @@ public class TeamSetup {
 
 		log.info("Saving user team with players");
 
-		Team team = Team.builder().totalPoints(15).freeTransfers(2).name("teleoptik").userId(user.getId())
+		Team team = Team.builder().totalPoints(15).freeTransfers(2).name("teleoptik").user(user)
 				.captainId(players.get(0).getId()).viceCaptainId(players.get(1).getId()).build();
 
 		List<TeamPlayer> teamPlayers = new ArrayList<>();
@@ -82,7 +82,7 @@ public class TeamSetup {
 				.favouriteClubId(favourite.getId()).build();
 		userRepository.save(user);
 
-		Team team = Team.builder().totalPoints(15).freeTransfers(2).name("teleoptik").userId(user.getId())
+		Team team = Team.builder().totalPoints(15).freeTransfers(2).name("teleoptik").user(user)
 				.captainId(favourite.getPlayers().get(0).getId()).viceCaptainId(favourite.getPlayers().get(1).getId()).build();
 
 		List<TeamPlayer> teamPlayers = new ArrayList<>();

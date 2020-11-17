@@ -35,7 +35,7 @@ class TeamRepositoryTest extends BaseRepositoryTest {
 		assertEquals(team.getName(), t.getName());
 		assertEquals(team.getTotalPoints(), t.getTotalPoints());
 		assertEquals(team.getFreeTransfers(), t.getFreeTransfers());
-		assertEquals(team.getUserId(), t.getUserId());
+		assertEquals(team.getUser().getId(), t.getUser().getId());
 		assertEquals(team.getCaptainId(), t.getCaptainId());
 		assertEquals(team.getViceCaptainId(), t.getViceCaptainId());
 		assertEquals(team.getTeamPlayers().size(), t.getTeamPlayers().size());

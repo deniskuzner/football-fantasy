@@ -9,7 +9,7 @@ public class UserException extends ApplicationException {
 	}
 	
 	public enum UserExceptionCode implements ApplicationExceptionCode {
-		USERNAME_ALREADY_EXISTS
+		USERNAME_ALREADY_EXISTS, LOGIN_FAILED
 	}
 
 }

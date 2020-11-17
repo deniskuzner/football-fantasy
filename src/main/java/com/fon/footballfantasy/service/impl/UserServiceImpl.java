@@ -28,8 +28,7 @@ public class UserServiceImpl implements UserService {
 	public User login(LoginCredentials credentials) {
 		User u = userRepository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
 		if(u == null) {
-			//TODO: UMESTO NULL BACITI CUSTOM LOGIN EXCEPTION
-			return null;
+			throw new UserException(LOGIN_FAILED, "Invalid username or password!");
 		}
 		return u;
 	}

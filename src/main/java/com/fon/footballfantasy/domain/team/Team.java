@@ -11,10 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fon.footballfantasy.domain.User;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,8 +48,10 @@ public class Team implements Serializable {
 
 	private String name;
 
-	@Column(name = "user_id")
-	private Long userId;
+	@JsonIgnoreProperties(value = "team", allowSetters = true)
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@Column(name = "captain_id")
 	private Long captainId;
