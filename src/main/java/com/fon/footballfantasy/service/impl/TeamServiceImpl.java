@@ -25,6 +25,7 @@ import com.fon.footballfantasy.domain.team.TeamPlayer;
 import com.fon.footballfantasy.exception.TeamException;
 import com.fon.footballfantasy.repository.PlayerGameweekPerformanceRepository;
 import com.fon.footballfantasy.repository.TeamGameweekPerformanceRepository;
+import com.fon.footballfantasy.repository.TeamPlayerRepository;
 import com.fon.footballfantasy.repository.TeamRepository;
 import com.fon.footballfantasy.service.TeamService;
 
@@ -35,6 +36,9 @@ public class TeamServiceImpl implements TeamService {
 
 	@Autowired
 	TeamRepository teamRepository;
+	
+	@Autowired
+	TeamPlayerRepository teamPlayerRepository;
 
 	@Autowired
 	TeamGameweekPerformanceRepository tgpRepository;
@@ -93,6 +97,10 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public Team save(Team team) {
 		validateTeam(team);
+		if(team.getId() != null) {
+			teamPlayerRepository.deleteByTeamId(team.getId());
+			team.setModifiedOn(null);
+		}
 		for (TeamPlayer tp : team.getTeamPlayers()) {
 			tp.setTeam(team);
 		}

@@ -66,7 +66,7 @@ public class ClubSetup {
 	public List<Club> getFullSetup() {
 		List<Club> clubs = new ArrayList<>();
 
-		Club club1 = Club.builder().name("Partizan").url("/url1").image("image").build();
+		Club club1 = Club.builder().name("Partizan").url("/url1").image("image").manager("Aleksandar Stanojevic").build();
 
 		Player p1 = Player.builder().name("Saša Zdjelar").url("/url1").nationality("SRB").birthDate("March 20, 1995")
 				.age("25").position("GK").height("183cm").weight("75kg").image("image").club(club1).build();
@@ -77,7 +77,7 @@ public class ClubSetup {
 
 		club1.setPlayers(Arrays.asList(p1, p2, p3));
 
-		Club club2 = Club.builder().name("Vozdovac").url("/url2").image("image").build();
+		Club club2 = Club.builder().name("Vozdovac").url("/url2").image("image").manager("Jovan Damjanovic").build();
 
 		Player p4 = Player.builder().name("Marko Gajic").url("/url4").nationality("SRB").birthDate("March 20, 1995")
 				.age("25").position("DF").height("183cm").weight("75kg").image("image").club(club2).build();
@@ -88,7 +88,7 @@ public class ClubSetup {
 
 		club2.setPlayers(Arrays.asList(p4, p5, p6));
 		
-		Club club3 = Club.builder().name("Vozdovac").url("/url3").image("image").build();
+		Club club3 = Club.builder().name("Vozdovac").url("/url3").image("image").manager("Jovan Damjanovic").build();
 		
 		Player p7 = Player.builder().name("Marko Gajic").url("/url7").nationality("SRB").birthDate("March 20, 1995")
 				.age("25").position("DF").height("183cm").weight("75kg").image("image").club(club3).build();
@@ -99,7 +99,7 @@ public class ClubSetup {
 		
 		club3.setPlayers(Arrays.asList(p7, p8, p9));
 		
-		Club club4 = Club.builder().name("Vozdovac").url("/url4").image("image").build();
+		Club club4 = Club.builder().name("Vozdovac").url("/url4").image("image").manager("Jovan Damjanovic").build();
 		
 		Player p10 = Player.builder().name("Marko Gajic").url("/url10").nationality("SRB").birthDate("March 20, 1995")
 				.age("25").position("MF").height("183cm").weight("75kg").image("image").club(club4).build();
@@ -110,7 +110,7 @@ public class ClubSetup {
 		
 		club4.setPlayers(Arrays.asList(p10, p11, p12));
 		
-		Club club5 = Club.builder().name("Vozdovac").url("/url5").image("image").build();
+		Club club5 = Club.builder().name("Vozdovac").url("/url5").image("image").manager("Jovan Damjanovic").build();
 		
 		Player p13 = Player.builder().name("Marko Gajic").url("/url13").nationality("SRB").birthDate("March 20, 1995")
 				.age("25").position("FW").height("183cm").weight("75kg").image("image").club(club5).build();

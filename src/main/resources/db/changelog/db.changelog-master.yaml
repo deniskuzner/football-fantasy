@@ -252,3 +252,15 @@ databaseChangeLog:
            sql: |
            
               alter table users drop column country;
+
+   - changeSet:
+      id: team-money-remaining
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Adding money remaining field in team
+           strip-comments: true
+           sql: |
+           
+              alter table teams add money_remaining decimal(3,1) not null;

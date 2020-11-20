@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 class TeamRepositoryTest extends BaseRepositoryTest {
 
 	@Autowired
-	TeamRepository userTeamRepository;
+	TeamRepository teamRepository;
 
 	@Autowired
 	TeamSetup teamSetup;
@@ -30,7 +30,7 @@ class TeamRepositoryTest extends BaseRepositoryTest {
 		Team team = teamSetup.getSetup();
 
 		log.info("Find user team by id");
-		Team t = userTeamRepository.findById(team.getId()).get();
+		Team t = teamRepository.findById(team.getId()).get();
 		assertNotNull(t);
 		assertEquals(team.getName(), t.getName());
 		assertEquals(team.getTotalPoints(), t.getTotalPoints());
@@ -47,7 +47,7 @@ class TeamRepositoryTest extends BaseRepositoryTest {
 	void deleteAll() {
 		log.info("Deleting all");
 		teamSetup.deleteAll();
-		assertEquals(0, ((List<Team>) userTeamRepository.findAll()).size());
+		assertEquals(0, ((List<Team>) teamRepository.findAll()).size());
 	}
 
 }

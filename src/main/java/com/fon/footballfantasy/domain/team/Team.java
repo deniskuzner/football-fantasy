@@ -47,17 +47,20 @@ public class Team implements Serializable {
 	private int freeTransfers;
 
 	private String name;
-
-	@JsonIgnoreProperties(value = "team", allowSetters = true)
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	
+	@Column(name = "money_remaining")
+	private double moneyRemaining;
 
 	@Column(name = "captain_id")
 	private Long captainId;
 
 	@Column(name = "vice_captain_id")
 	private Long viceCaptainId;
+
+	@JsonIgnoreProperties(value = "team", allowSetters = true)
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@JsonIgnoreProperties(value = "team", allowSetters = true)
 	@OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

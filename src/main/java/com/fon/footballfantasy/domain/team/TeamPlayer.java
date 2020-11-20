@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fon.footballfantasy.domain.Player;
 
 import lombok.Data;
@@ -42,12 +40,11 @@ public class TeamPlayer implements Serializable {
 	@Column(name = "on_bench")
 	private boolean onBench;
 	
-	@JsonIgnoreProperties(value = "club", allowSetters = true)
 	@ManyToOne
 	@JoinColumn(name = "player_id")
 	private Player player;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private Team team;
 
