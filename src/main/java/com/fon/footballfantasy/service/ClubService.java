@@ -28,4 +28,6 @@ public interface ClubService {
 
 	List<String> findAllNames();
 
+	Club findFavouriteClub(@NotNull @Min(1) Long userId);
+
 }

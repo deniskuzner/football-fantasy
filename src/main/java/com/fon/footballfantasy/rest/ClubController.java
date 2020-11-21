@@ -62,5 +62,9 @@ public class ClubController {
 	ResponseEntity<?> findAllNames() {
 		return new ResponseEntity<>(clubService.findAllNames(), HttpStatus.OK);
 	}
-
+	
+	@GetMapping(value = "/favourite/{userId}")
+	ResponseEntity<?> findFavouriteClub(@PathVariable("userId") Long userId) {
+		return new ResponseEntity<>(clubService.findFavouriteClub(userId), HttpStatus.OK);
+	}
 }
