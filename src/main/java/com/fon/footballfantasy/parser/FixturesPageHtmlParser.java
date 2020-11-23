@@ -43,7 +43,8 @@ public class FixturesPageHtmlParser {
 			if(row.hasClass("spacer"))
 				continue;
 			
-			String matchUrl = row.getElementsByAttributeValue("data-stat", "match_report").get(0).select("a").attr("href").replaceFirst("/en/matches", "");
+			String matchReport = row.getElementsByAttributeValue("data-stat", "match_report").get(0).select("a").attr("href");
+			String matchUrl = getMatchUrl(matchReport);
 			int gameweekOrderNumber = Integer.parseInt(row.getElementsByAttributeValue("data-stat", "gameweek").get(0).text());
 			Gameweek gameweek = Gameweek.builder().orderNumber(gameweekOrderNumber).build();
 			String date = row.getElementsByAttributeValue("data-stat", "date").get(0).text();
@@ -73,6 +74,13 @@ public class FixturesPageHtmlParser {
 		}
 		
 		return result;
+	}
+	
+	String getMatchUrl(String matchReport) {
+		if(matchReport.contains("stathead/matchup")) {
+			return "";
+		}
+		return matchReport.replaceFirst("/en/matches", "");
 	}
 
 }

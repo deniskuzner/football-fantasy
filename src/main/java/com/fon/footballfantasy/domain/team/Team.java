@@ -63,11 +63,11 @@ public class Team implements Serializable {
 	private User user;
 
 	@JsonIgnoreProperties(value = "team", allowSetters = true)
-	@OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "team", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
 	private List<TeamPlayer> teamPlayers;
 
 	@JsonIgnoreProperties(value = "team", allowSetters = true)
-	@OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
 	private List<TeamGameweekPerformance> teamGameweekPerformances;
 
 }

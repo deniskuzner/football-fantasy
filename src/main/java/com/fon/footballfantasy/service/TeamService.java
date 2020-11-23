@@ -9,11 +9,9 @@ import com.fon.footballfantasy.domain.team.Team;
 
 public interface TeamService {
 	
-	List<Team> calculateGameweekPoints(@NotNull @Min(1) Long gameweekId);
-	
-	Team calculateTeamGameweekPoints(@NotNull Team team, @NotNull @Min(1) Long gameweekId);
-	
 	Team save(@NotNull Team team);
+	
+	Team update(@NotNull Team team);
 	
 	List<Team> findAll();
 	

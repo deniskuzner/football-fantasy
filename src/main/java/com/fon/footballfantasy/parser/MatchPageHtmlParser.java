@@ -56,6 +56,9 @@ public class MatchPageHtmlParser {
 	
 	private List<MinutesPlayed> getMinutesPlayed(Elements statsTables, Club hostDTO, Club guestDTO) {
 		List<MinutesPlayed> result = new ArrayList<>();
+		if(statsTables.size() < 4) {
+			return result;
+		}
 		Elements hostPlayersRows = statsTables.get(0).select("tr");
 		Elements guestPlayersRows = statsTables.get(2).select("tr");
 		

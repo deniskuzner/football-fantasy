@@ -10,7 +10,7 @@ public interface GameweekRepository extends CrudRepository<Gameweek, Long> {
 	
 	Gameweek findByOrderNumber(int orderNumber);
 	
-	@Query(value = "SELECT gameweek_id FROM matches ORDER BY ABS(DATEDIFF(NOW(), date_time)) LIMIT 1", nativeQuery = true)
+	@Query(value = "SELECT gameweek_id FROM matches WHERE date_time < NOW() ORDER BY date_time DESC LIMIT 1", nativeQuery = true)
 	Long findCurrentGameweekId();
 	
 	@Query(value = "SELECT order_number FROM gameweeks WHERE id = :id", nativeQuery = true)

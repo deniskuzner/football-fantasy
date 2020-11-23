@@ -85,7 +85,7 @@ public class GameweekServiceImpl implements GameweekService {
 	public int findCurrentGameweekOrderNumber() {
 		Long id = gameweekRepository.findCurrentGameweekId();
 		if(id == null) {
-			return 1;
+			return -1;
 		}
 		return gameweekRepository.findOrderNumberById(id);
 	}

@@ -20,11 +20,6 @@ public class TeamController {
 	@Autowired
 	TeamService teamService;
 
-	@GetMapping(value = "/calculate/gameweek/{id}")
-	ResponseEntity<?> calculateGameweekPoints(@PathVariable("id") Long gameweekId) {
-		return new ResponseEntity<>(teamService.calculateGameweekPoints(gameweekId), HttpStatus.OK);
-	}
-
 	@PostMapping(value = "/team")
 	ResponseEntity<?> save(@RequestBody Team team) {
 		return new ResponseEntity<>(teamService.save(team), HttpStatus.OK);
@@ -44,5 +39,5 @@ public class TeamController {
 	ResponseEntity<?> findByUserId(@PathVariable("id") Long userId) {
 		return new ResponseEntity<>(teamService.findByUserId(userId), HttpStatus.OK);
 	}
-
+	
 }
