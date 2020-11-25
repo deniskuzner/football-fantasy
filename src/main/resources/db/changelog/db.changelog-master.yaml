@@ -264,3 +264,56 @@ databaseChangeLog:
            sql: |
            
               alter table teams add money_remaining decimal(3,1) not null;
+
+   - changeSet:
+      id: league
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Leagues, team league memberships
+           strip-comments: true
+           sql: |
+           
+              create table leagues(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 name varchar(50) not null
+              );
+
+              create table team_league_memberships(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 team_id bigint not null,
+                 league_id bigint not null
+              );
+
+              alter table team_league_memberships add constraint fk_tlm_team foreign key(team_id) references teams(id);
+              alter table team_league_memberships add constraint fk_tlm_league foreign key(league_id) references leagues(id);
+
+   - changeSet:
+      id: tlm-username
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Adding username field in team_league_memberships
+           strip-comments: true
+           sql: |
+           
+              alter table team_league_memberships add username varchar(100) not null;
+
+   - changeSet:
+      id: league-owner
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Adding owner_id field in leagues
+           strip-comments: true
+           sql: |
+           
+              alter table leagues add owner_id bigint not null;
+              alter table leagues add constraint fk_league_owner foreign key(owner_id) references users(id);

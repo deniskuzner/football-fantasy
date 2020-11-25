@@ -103,7 +103,6 @@ public class TeamGameweekPerformanceServiceImpl implements TeamGameweekPerforman
 		int averagePoints = ((BigDecimal) stats[0]).intValue();
 		int highestPoints = (int) stats[1];
 		int rank = ((BigInteger) tgpRepository.getRank(teamId, gameweekId).get(0)[0]).intValue();
-		
 		return TeamGameweekStats.builder().averagePoints(averagePoints).highestPoints(highestPoints).rank(rank).build();
 	}
 

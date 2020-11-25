@@ -40,4 +40,9 @@ public class TeamController {
 		return new ResponseEntity<>(teamService.findByUserId(userId), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/league/{id}")
+	ResponseEntity<?> findByLeagueId(@PathVariable("id") Long leagueId) {
+		return new ResponseEntity<>(teamService.findByLeagueId(leagueId), HttpStatus.OK);
+	}
+	
 }

@@ -19,6 +19,8 @@ public interface TeamService {
 	
 	Team findByUserId(@NotNull @Min(1) Long userId);
 	
+	List<Team> findByLeagueId(@NotNull @Min(1) Long leagueId);
+	
 	void deleteById(@NotNull @Min(1) Long id);
 	
 	void deleteByUserId(@NotNull @Min(1) Long userId);

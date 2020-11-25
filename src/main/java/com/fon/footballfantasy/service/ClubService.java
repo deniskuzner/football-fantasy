@@ -17,7 +17,6 @@ public interface ClubService {
 	
 	Club findById(@NotNull @Min(1) Long id);
 	
-	// mozda nije potrebno
 	Club findByUrl(@NotNull String url);
 	
 	List<Club> findAll();

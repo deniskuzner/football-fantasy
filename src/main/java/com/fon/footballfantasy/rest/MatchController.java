@@ -41,7 +41,7 @@ public class MatchController {
 		return new ResponseEntity<>(matchService.findAll(), HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/match{id}")
+	@DeleteMapping(value = "/match/{id}")
 	ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
 		matchService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -2,6 +2,7 @@ package com.fon.footballfantasy.service.impl;
 
 import static com.fon.footballfantasy.exception.TeamException.TeamExceptionCode.TEAM_NOT_VALID;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.fon.footballfantasy.domain.Club;
+import com.fon.footballfantasy.domain.league.TeamLeagueMembership;
 import com.fon.footballfantasy.domain.team.Team;
 import com.fon.footballfantasy.domain.team.TeamPlayer;
 import com.fon.footballfantasy.exception.TeamException;
@@ -22,6 +24,7 @@ import com.fon.footballfantasy.repository.PlayerGameweekPerformanceRepository;
 import com.fon.footballfantasy.repository.TeamGameweekPerformanceRepository;
 import com.fon.footballfantasy.repository.TeamPlayerRepository;
 import com.fon.footballfantasy.repository.TeamRepository;
+import com.fon.footballfantasy.service.TeamLeagueMembershipService;
 import com.fon.footballfantasy.service.TeamService;
 
 @Service
@@ -40,6 +43,9 @@ public class TeamServiceImpl implements TeamService {
 
 	@Autowired
 	PlayerGameweekPerformanceRepository pgpRepository;
+	
+	@Autowired
+	TeamLeagueMembershipService tlmService;
 
 	@Override
 	public Team save(Team team) {
@@ -76,6 +82,16 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public Team findByUserId(Long userId) {
 		return teamRepository.findByUserId(userId);
+	}
+	
+	@Override
+	public List<Team> findByLeagueId(Long leagueId) {
+		List<Team> teams = new ArrayList<>();
+		List<TeamLeagueMembership> memberships = tlmService.findByLeagueId(leagueId);
+		for (TeamLeagueMembership tlm : memberships) {
+			teams.add(findById(tlm.getTeamId()));
+		}
+		return teams;
 	}
 
 	@Override
