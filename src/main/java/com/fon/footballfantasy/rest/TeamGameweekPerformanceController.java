@@ -17,9 +17,9 @@ public class TeamGameweekPerformanceController {
 	@Autowired
 	TeamGameweekPerformanceService tgpService;
 	
-	@GetMapping(value = "/calculate/gameweek/{id}")
-	ResponseEntity<?> calculateGameweekPoints(@PathVariable("id") Long gameweekId) {
-		return new ResponseEntity<>(tgpService.calculateGameweekPoints(gameweekId), HttpStatus.OK);
+	@GetMapping(value = "/calculate/gameweek/{orderNumber}")
+	ResponseEntity<?> calculateGameweekPoints(@PathVariable("orderNumber") int gameweekOrderNumber) {
+		return new ResponseEntity<>(tgpService.calculateGameweekPoints(gameweekOrderNumber), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/stats/{teamId}/{gameweekId}")

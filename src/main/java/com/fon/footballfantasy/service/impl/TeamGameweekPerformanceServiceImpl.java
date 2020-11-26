@@ -19,6 +19,7 @@ import com.fon.footballfantasy.domain.team.Team;
 import com.fon.footballfantasy.domain.team.TeamGameweekPerformance;
 import com.fon.footballfantasy.domain.team.TeamPlayer;
 import com.fon.footballfantasy.exception.TeamGameweekPerformanceException;
+import com.fon.footballfantasy.repository.GameweekRepository;
 import com.fon.footballfantasy.repository.PlayerGameweekPerformanceRepository;
 import com.fon.footballfantasy.repository.TeamGameweekPerformanceRepository;
 import com.fon.footballfantasy.repository.TeamRepository;
@@ -42,9 +43,13 @@ public class TeamGameweekPerformanceServiceImpl implements TeamGameweekPerforman
 
 	@Autowired
 	TeamRepository teamRepository;
+	
+	@Autowired
+	GameweekRepository gameweekRepository;
 
 	@Override
-	public List<Team> calculateGameweekPoints(Long gameweekId) {
+	public List<Team> calculateGameweekPoints(int gameweekOrderNumber) {
+		Long gameweekId = gameweekRepository.findIdByOrderNumber(gameweekOrderNumber);
 		// check if player points are calculated for that gameweek
 		if (pgpRepository.countByGameweekId(gameweekId) == 0) {
 			throw new TeamGameweekPerformanceException(PLAYER_POINTS_NOT_CALCULATED, "Player points for gameweek: %s are not calculated!", gameweekId);

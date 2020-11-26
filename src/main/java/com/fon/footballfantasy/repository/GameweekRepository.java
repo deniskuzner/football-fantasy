@@ -16,4 +16,7 @@ public interface GameweekRepository extends CrudRepository<Gameweek, Long> {
 	@Query(value = "SELECT order_number FROM gameweeks WHERE id = :id", nativeQuery = true)
 	int findOrderNumberById(@Param("id") Long id);
 	
+	@Query(value = "SELECT id FROM gameweeks WHERE order_number = :orderNumber", nativeQuery = true)
+	Long findIdByOrderNumber(@Param("orderNumber") int orderNumber);
+	
 }

@@ -10,7 +10,7 @@ import com.fon.footballfantasy.service.dto.TeamGameweekStats;
 
 public interface TeamGameweekPerformanceService {
 	
-	List<Team> calculateGameweekPoints(@NotNull @Min(1) Long gameweekId);
+	List<Team> calculateGameweekPoints(@NotNull @Min(1) int gameweekOrderNumber);
 	
 	TeamGameweekStats getGameweekStats(@NotNull @Min(1) Long teamId, @NotNull @Min(1) Long gameweekId);
 	
