@@ -42,7 +42,7 @@ public class LeagueController {
 	}
 
 	@DeleteMapping(value = "/league/{id}")
-	ResponseEntity<?> deleteById(Long id) {
+	ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
 		leagueService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

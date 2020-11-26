@@ -3,6 +3,7 @@ package com.fon.footballfantasy.service.impl;
 import static com.fon.footballfantasy.exception.TeamException.TeamExceptionCode.TEAM_NOT_VALID;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -91,7 +92,7 @@ public class TeamServiceImpl implements TeamService {
 		for (TeamLeagueMembership tlm : memberships) {
 			teams.add(findById(tlm.getTeamId()));
 		}
-		return teams;
+		return teams.stream().sorted(Comparator.comparingInt(Team::getTotalPoints).reversed()).collect(Collectors.toList());
 	}
 
 	@Override

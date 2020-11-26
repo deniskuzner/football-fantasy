@@ -317,3 +317,15 @@ databaseChangeLog:
            
               alter table leagues add owner_id bigint not null;
               alter table leagues add constraint fk_league_owner foreign key(owner_id) references users(id);
+
+   - changeSet:
+      id: tlm-username-remove
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: Removing username field from team_league_memberships
+           strip-comments: true
+           sql: |
+           
+              alter table team_league_memberships drop column username;

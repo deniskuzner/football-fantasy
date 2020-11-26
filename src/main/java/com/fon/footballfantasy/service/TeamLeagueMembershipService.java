@@ -5,11 +5,12 @@ import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fon.footballfantasy.domain.league.League;
 import com.fon.footballfantasy.domain.league.TeamLeagueMembership;
 
 public interface TeamLeagueMembershipService {
 	
-	TeamLeagueMembership save(@NotNull TeamLeagueMembership tlm);
+	League save(@NotNull TeamLeagueMembership tlm);
 
 	TeamLeagueMembership findById(@NotNull @Min(1) Long id);
 
@@ -18,6 +19,8 @@ public interface TeamLeagueMembershipService {
 	List<TeamLeagueMembership> findByLeagueId(@NotNull @Min(1) Long leagueId);
 
 	void deleteById(@NotNull @Min(1) Long id);
+
+	void deleteByLeagueId(@NotNull @Min(1) Long id);
 
 	void deleteByTeamAndLeague(@NotNull @Min(1) Long teamId, @NotNull @Min(1) Long leagueId);
 

@@ -31,7 +31,6 @@ public class TeamLeagueMembership implements Serializable {
 	@Column(name = "modified_on")
 	private LocalDateTime modifiedOn;
 	
-	private String username;
 	@Column(name = "team_id")
 	private Long teamId;
 	@Column(name = "league_id")

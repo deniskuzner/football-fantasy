@@ -52,6 +52,7 @@ public class LeagueServiceImpl implements LeagueService {
 
 	@Override
 	public void deleteById(Long id) {
+		tlmService.deleteByLeagueId(id);
 		leagueRepository.deleteById(id);
 	}
 	
