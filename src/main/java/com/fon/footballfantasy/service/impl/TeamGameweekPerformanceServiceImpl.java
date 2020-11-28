@@ -60,8 +60,6 @@ public class TeamGameweekPerformanceServiceImpl implements TeamGameweekPerforman
 			calculateTeamGameweekPoints(team, gameweekId);
 		}
 
-		// TODO: UPDATE GAMEWEEKSTATUS NA CONFIRMED
-
 		return teams;
 	}
 	
@@ -88,20 +86,22 @@ public class TeamGameweekPerformanceServiceImpl implements TeamGameweekPerforman
 				tp.setPoints(0);
 			}
 		}
-
-		setCaptainPoints(team);
+		// set captain and vice captain points
+		TeamPlayer captain = team.getTeamPlayers().stream().filter(p -> p.getPlayer().getId().equals(team.getCaptainId())).findFirst().get();
+		TeamPlayer viceCaptain = team.getTeamPlayers().stream().filter(p -> p.getPlayer().getId().equals(team.getViceCaptainId())).findFirst().get();
+		captain.setPoints(captain.getPoints() * 2);
+		viceCaptain.setPoints(captain.getPoints() > 0 ? viceCaptain.getPoints() : viceCaptain.getPoints() * 2);
+		
 		int totalGameweekPoints = players.stream().filter(p -> !p.isOnBench()).mapToInt(p -> p.getPoints()).sum();
 		int newPoints = totalGameweekPoints - currentGWPoints;
 		team.setTotalPoints(team.getTotalPoints() + newPoints);
 		
 		tgp.setPoints(totalGameweekPoints);
-		if(tgp.getId() == null) {
-			tgpRepository.save(tgp);			
-		}
+		tgpRepository.save(tgp);			
 		
 		return team;
 	}
-	
+
 	@Override
 	public TeamGameweekStats getGameweekStats(Long teamId, Long gameweekId) {
 		Object[] stats = tgpRepository.getGameweekStats(gameweekId).get(0);
@@ -110,22 +110,5 @@ public class TeamGameweekPerformanceServiceImpl implements TeamGameweekPerforman
 		int rank = ((BigInteger) tgpRepository.getRank(teamId, gameweekId).get(0)[0]).intValue();
 		return TeamGameweekStats.builder().averagePoints(averagePoints).highestPoints(highestPoints).rank(rank).build();
 	}
-
-	// Private helper methods
-
-	private void setCaptainPoints(Team team) {
-		TeamPlayer captain = team.getTeamPlayers().stream()
-				.filter(p -> p.getPlayer().getId().equals(team.getCaptainId())).findFirst().get();
-		TeamPlayer viceCaptain = team.getTeamPlayers().stream()
-				.filter(p -> p.getPlayer().getId().equals(team.getViceCaptainId())).findFirst().get();
-		int captainPoints = captain.getPoints();
-		int viceCaptainPoints = viceCaptain.getPoints();
-
-		if (captainPoints > 0) {
-			captain.setPoints(captainPoints * 2);
-		} else if (viceCaptainPoints > 0) {
-			viceCaptain.setPoints(viceCaptainPoints * 2);
-		}
-	}
-
+	
 }

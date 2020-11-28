@@ -1,16 +1,20 @@
-package com.fon.footballfantasy.domain;
+package com.fon.footballfantasy.domain.user;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fon.footballfantasy.domain.team.Team;
 
 import lombok.Data;
@@ -50,5 +54,7 @@ public class User implements Serializable {
 	private Long favouriteClubId;
 	@OneToOne(mappedBy = "user")
 	private Team team;
-
+	@JsonIgnoreProperties(value = "user", allowSetters = true)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	List<UserRole> roles;
 }

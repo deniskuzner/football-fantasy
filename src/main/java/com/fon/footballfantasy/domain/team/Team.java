@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fon.footballfantasy.domain.User;
+import com.fon.footballfantasy.domain.user.User;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

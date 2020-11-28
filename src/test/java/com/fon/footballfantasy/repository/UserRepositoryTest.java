@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fon.footballfantasy.domain.Club;
-import com.fon.footballfantasy.domain.User;
+import com.fon.footballfantasy.domain.user.User;
 import com.fon.footballfantasy.setup.ClubSetup;
 
 import lombok.extern.slf4j.Slf4j;

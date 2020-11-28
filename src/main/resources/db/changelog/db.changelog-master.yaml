@@ -329,3 +329,31 @@ databaseChangeLog:
            sql: |
            
               alter table team_league_memberships drop column username;
+
+   - changeSet:
+      id: roles
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: User roles
+           strip-comments: true
+           sql: |
+
+              create table roles(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 name varchar(50) not null
+              );
+
+              create table user_roles(
+                 id bigint primary key auto_increment,
+                 created_on timestamp not null default current_timestamp,
+                 modified_on timestamp not null default current_timestamp,
+                 user_id bigint not null,
+                 role_id bigint not null
+              );
+
+              alter table user_roles add constraint fk_user_roles_user foreign key(user_id) references users(id);
+              alter table user_roles add constraint fk_user_roles_role foreign key(role_id) references roles(id);

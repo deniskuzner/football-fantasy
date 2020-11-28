@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.fon.footballfantasy.domain.User;
+import com.fon.footballfantasy.domain.user.User;
 import com.fon.footballfantasy.service.dto.LoginCredentials;
 
 public interface UserService {
