@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -31,7 +31,7 @@ public class UserRole {
 	private LocalDateTime createdOn;
 	@Column(name = "modified_on")
 	private LocalDateTime modifiedOn;
-	
+
 	@JsonIgnoreProperties(value = "roles", allowSetters = true)
 	@ManyToOne
 	@JoinColumn(name = "user_id")

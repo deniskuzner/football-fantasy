@@ -57,4 +57,5 @@ public class User implements Serializable {
 	@JsonIgnoreProperties(value = "user", allowSetters = true)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	List<UserRole> roles;
+
 }

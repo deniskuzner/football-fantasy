@@ -357,3 +357,15 @@ databaseChangeLog:
 
               alter table user_roles add constraint fk_user_roles_user foreign key(user_id) references users(id);
               alter table user_roles add constraint fk_user_roles_role foreign key(role_id) references roles(id);
+
+   - changeSet:
+      id: user-password
+      author: deniskuzner@gmail.com
+      
+      changes:
+         - sql:
+           comment: User password size
+           strip-comments: true
+           sql: |
+
+              alter table users modify column password varchar(200) not null;

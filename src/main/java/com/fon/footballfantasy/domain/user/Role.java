@@ -30,7 +30,7 @@ public class Role implements Serializable {
 	private LocalDateTime createdOn;
 	@Column(name = "modified_on")
 	private LocalDateTime modifiedOn;
-	
+
 	private String name;
-	
+
 }

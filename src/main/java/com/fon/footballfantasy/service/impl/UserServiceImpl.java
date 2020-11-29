@@ -1,6 +1,7 @@
 package com.fon.footballfantasy.service.impl;
 
-import static com.fon.footballfantasy.exception.UserException.UserExceptionCode.*;
+import static com.fon.footballfantasy.exception.UserException.UserExceptionCode.LOGIN_FAILED;
+import static com.fon.footballfantasy.exception.UserException.UserExceptionCode.USERNAME_ALREADY_EXISTS;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 	
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	RoleRepository roleRepository;
 
 	@Override
@@ -46,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		if(u != null) {
 			throw new UserException(USERNAME_ALREADY_EXISTS, "Username %s is already taken!", user.getUsername());
 		}
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Role roleUser = roleRepository.findByName("USER");
 		user.setRoles(Arrays.asList(
 				UserRole.builder().user(user).role(roleUser).build()
