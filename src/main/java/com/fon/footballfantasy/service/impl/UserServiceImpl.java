@@ -19,6 +19,7 @@ import com.fon.footballfantasy.domain.user.UserRole;
 import com.fon.footballfantasy.exception.UserException;
 import com.fon.footballfantasy.repository.RoleRepository;
 import com.fon.footballfantasy.repository.UserRepository;
+import com.fon.footballfantasy.repository.UserRoleRepository;
 import com.fon.footballfantasy.service.UserService;
 import com.fon.footballfantasy.service.dto.LoginCredentials;
 
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	UserRoleRepository userRoleRepository;
 
 	@Override
 	public User login(LoginCredentials credentials) {
@@ -67,7 +71,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findById(Long id) {
-		return userRepository.findById(id).get();
+		User user = userRepository.findById(id).get();
+		if(user != null) {
+			user.setRoles(userRoleRepository.findByUser(user));
+		}
+		return user;
+	}
+	
+	@Override
+	public User findByUsername(String username) {
+		User user = userRepository.findByUsername(username);
+		if(user != null) {
+			user.setRoles(userRoleRepository.findByUser(user));
+		}
+		return user;
 	}
 
 	@Override
@@ -79,5 +96,5 @@ public class UserServiceImpl implements UserService {
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
 	}
-	
+
 }

@@ -18,6 +18,8 @@ public interface UserService {
 
 	User findById(@NotNull @Min(1) Long id);
 	
+	User findByUsername(@NotNull String username);
+	
 	List<User> findAll();
 	
 	void deleteById(@NotNull @Min(1) Long id);

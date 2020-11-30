@@ -1,7 +1,7 @@
 package com.fon.footballfantasy.repository;
 
+import static com.fon.footballfantasy.repository.UserAssert.assertUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
@@ -39,12 +39,7 @@ class UserRepositoryTest extends BaseRepositoryTest {
 
 		log.info("Find user by ID");
 		User u = userRepository.findById(user.getId()).get();
-		assertNotNull(u);
-		assertEquals(user.getId(), u.getId());
-		assertEquals(user.getUsername(), u.getUsername());
-		assertEquals(user.getPassword(), u.getPassword());
-		assertEquals(user.getFirstName(), u.getFirstName());
-		assertEquals(user.getLastName(), u.getLastName());
+		assertUser(user, u);
 		assertEquals(user.getFavouriteClubId(), clubs.get(0).getId());
 
 	}
@@ -62,13 +57,8 @@ class UserRepositoryTest extends BaseRepositoryTest {
 
 		log.info("Find user by username and password");
 		User u = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-		assertNotNull(user);
-		assertEquals(user.getId(), u.getId());
-		assertEquals(user.getUsername(), u.getUsername());
-		assertEquals(user.getPassword(), u.getPassword());
-		assertEquals(user.getFirstName(), u.getFirstName());
-		assertEquals(user.getLastName(), u.getLastName());
-		assertEquals(user.getFavouriteClubId(), clubs.get(0).getId());
+		assertUser(user, u);
+		assertEquals(u.getFavouriteClubId(), clubs.get(0).getId());
 		
 		log.info("Find user with wrong username and password");
 		u = userRepository.findByUsernameAndPassword("greska", "greska");
