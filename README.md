@@ -1,6 +1,6 @@
 # Football Fantasy
 
-Monolithic Football Fantasy application built with Spring Boot framework. It manages users, teams, players, clubs, leagues, matches and statistics. System supports two types of user roles: USER and ADMIN.
+Monolithic Football Fantasy application built with Spring Boot framework for the needs of the master's thesis "Comparative analysis of monolithic and microservice applications characteristics in Java EE environment". It manages users, teams, players, clubs, leagues, matches and statistics. System supports two types of user roles: USER and ADMIN.
 
 After registration and logging in to the system, user can create a team. User team is created by selecting fifteen players within a limited budget where the team must not contain more than three players of the same club. After that, user can change selected team by making substitutions and transfers. User gets weekly points based on the actual performances of selected players in real-world matches. He can also view matches, results and create a new league or join an existing one in which he can compete with his friends.
 
